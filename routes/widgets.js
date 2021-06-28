@@ -21,9 +21,8 @@ module.exports = (database) => {
       userId: 1,
       email: database.getUserWithId(1).email
     };
-    res.render("map", templateVars);
+    res.render("search.html", templateVars);
   });
-
 
   router.get("/", (req, res) => {
     let query = `SELECT * FROM widgets`;
