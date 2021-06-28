@@ -5,6 +5,7 @@
  * See: https://expressjs.com/en/guide/using-middleware.html#middleware.router
  */
 
+
 const express = require('express');
 const router  = express.Router();
 const cookieSession = require('cookie-session');
@@ -21,7 +22,7 @@ module.exports = (database) => {
       userId: 1,
       email: database.getUserWithId(1).email
     };
-    res.render("search.html", templateVars);
+    res.render("leaflet.html");
   });
 
   router.get("/", (req, res) => {

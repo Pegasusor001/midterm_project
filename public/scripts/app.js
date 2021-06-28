@@ -1,6 +1,3 @@
-// const leaflet = require('leaflet')
-
-
 $(document).ready(function() {
   $('.my_maps').on('click', function(event){
     event.preventDefault();
