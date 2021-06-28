@@ -7,8 +7,24 @@
 
 const express = require('express');
 const router  = express.Router();
+const cookieSession = require('cookie-session');
+const bcrypt = require('bcrypt');
 
-module.exports = (db) => {
+router.use(cookieSession({
+  name: 'userId',
+  keys: ['key1', 'key2']
+}));
+
+module.exports = (database) => {
+  router.get("/:mapId", (req, res) => {
+    const templateVars = {
+      userId: 1,
+      email: database.getUserWithId(1).email
+    };
+    res.render("map", templateVars);
+  });
+
+
   router.get("/", (req, res) => {
     let query = `SELECT * FROM widgets`;
     console.log(query);
