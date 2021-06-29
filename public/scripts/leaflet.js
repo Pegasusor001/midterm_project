@@ -10,7 +10,10 @@ const mapDatabase = {
     marker: {
       'marker1': [51.505, -0.09],
       'marker2': [51.605, -0.11]
-    }
+    },
+    is_public: true,
+    description: 'xx',
+    image: 'url',
   }
 };
 
@@ -36,8 +39,8 @@ let googleSat = L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}',
 
 
 var myIcon = L.icon({
-        iconUrl: 'img/red_marker.png',
-        iconSize: [40, 40],
+  iconUrl: '/scripts/img/red_marker.png',
+  iconSize: [40, 40],
 });
 var singleMarker = L.marker(mapDatabase.map1.marker['marker1'], { icon: myIcon, draggable: true });
 var popup = singleMarker.bindPopup('This is the Nepal. ' + singleMarker.getLatLng()).openPopup()
@@ -60,12 +63,3 @@ var overlayMaps = {
 }
 
 L.control.layers(baseMaps, overlayMaps, { collapsed: true }).addTo(map);
-
-map.on('mouseover', function () {
-  console.log('your mouse is over the map')
-});
-
-map.on('mousemove', function (e) {
-  document.getElementsByClassName('coordinate')[0].innerHTML = 'lat: ' + e.latlng.lat + 'lng: ' + e.latlng.lng;
-  console.log('lat: ' + e.latlng.lat, 'lng: ' + e.latlng.lng)
-});

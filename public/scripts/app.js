@@ -1,12 +1,12 @@
 $(document).ready(function() {
   $('.my_maps').on('click', function(event){
     event.preventDefault();
-    $('main').append(
-    `<article class="myMap_listing">
-      <section class="myMaps-preview_image">
-        <img src='https://www.google.com/search?q=map&sxsrf=ALeKk03BkEOasTb0S97wAb8Wfj11KtFNtQ:1624842477747&source=lnms&tbm=isch&sa=X&ved=2ahUKEwj9sc71kbnxAhXQ0p4KHSzgAd0Q_AUoAnoECAEQBQ&biw=1440&bih=679#imgrc=YAE5kjD8I51L8M'>
+    $('main').html(
+    `<article class="myMaps_listing">
+      <section class="myMaps_preview_image">
+        <img src='https://upload.wikimedia.org/wikipedia/commons/a/aa/World_Map.jpg'>
       </section>
-      <section class="myMaps_details">
+      <section class="myMaps_infor">
         <h3 class="myMaps_title">Map Title</h3>
         <ul class="myMaps_details">
           <li>Tag1: </li>
@@ -23,17 +23,42 @@ $(document).ready(function() {
 
   $('.create_new').on('click', function(event){
     event.preventDefault();
-    $('main').append('<p>map information</p>')
+    $('main').html('<p>map information</p>')
   })
 
   $('.search').on('click', function(event){
     event.preventDefault();
-    $('main').append('<p>search information</p>')
+    $('main').html('<p>search information</p>')
   })
 
   $('.my_profile').on('click', function(event){
     event.preventDefault();
-    $('main').append('<p>Profile</p>')
+    $('main').html(`
+    <form action="/api/users/password" method="post">
+      <div class='password_reset'>
+        <div class='password_input'>
+          <div class="password_email">
+            <label>Email Address</label>
+            <input type="email" name="email"/>
+          </div>
+
+          <div class="password_new">
+            <label>New Password</label>
+            <input name="password_new"/>
+          </div>
+
+          <div class="password_confirm">
+            <label>Confirm Your Password</label>
+            <input name="password_confirm"/>
+          </div>
+        </div>
+
+        <div class="password_submit">
+            <button>Submit</button>
+        </div>
+      </div>
+    </form>
+    `)
   })
 })
 
