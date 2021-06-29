@@ -12,7 +12,7 @@ const router  = express.Router();
 module.exports = (db) => {
   router.get("/", (req, res) => {
     //userQueries.getUsers(db)
-    db.query("SELECT * FROM users;")
+    db.query("SELECT * FROM points;")
       .then(data => {
         const users = data.rows;
         res.json({ users });
@@ -29,7 +29,7 @@ module.exports = (db) => {
 // module.exports = (db) => {
 //   router.get("/:id", (req, res) => {
 //     //userQueries.getUsers(db)
-//     db.query("SELECT * FROM users WHERE id = $1;", [req.params.id])
+//     db.query("SELECT * FROM points WHERE id = $1;", [req.params.id])
 //       .then(data => {
 //         const users = data.rows;
 //         res.json({ users });
