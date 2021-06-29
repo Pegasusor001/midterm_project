@@ -1,17 +1,164 @@
+
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title>Home Page</title>
+    <head>
+      <meta charset="utf-8" />
+      <title>Geocoding Control</title>
+      <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
 
-    <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
-    <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
-    <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
+      <!-- Load Leaflet from CDN -->
+      <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
+      integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+      crossorigin=""/>
+      <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
+      integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
+      crossorigin=""></script>
 
-    <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
-    <script type="text/javascript" src="/scripts/app.js"></script>
-  </head>
 
-  <body>
-    <h1>Hello World!</h1>
-  </body>
+      <!-- Load Esri Leaflet from CDN -->
+      <script src="https://unpkg.com/esri-leaflet@2.4.1/dist/esri-leaflet.js"
+      integrity="sha512-xY2smLIHKirD03vHKDJ2u4pqeHA7OQZZ27EjtqmuhDguxiUvdsOuXMwkg16PQrm9cgTmXtoxA6kwr8KBy3cdcw=="
+      crossorigin=""></script>
+
+      <!-- Load Esri Leaflet Geocoder from CDN -->
+      <link rel="stylesheet" href="https://unpkg.com/esri-leaflet-geocoder@2.3.3/dist/esri-leaflet-geocoder.css"
+        integrity="sha512-IM3Hs+feyi40yZhDH6kV8vQMg4Fh20s9OzInIIAc4nx7aMYMfo+IenRUekoYsHZqGkREUgx0VvlEsgm7nCDW9g=="
+        crossorigin="">
+      <script src="https://unpkg.com/esri-leaflet-geocoder@2.3.3/dist/esri-leaflet-geocoder.js"
+        integrity="sha512-HrFUyCEtIpxZloTgEKKMq4RFYhxjJkCiF5sDxuAokklOeZ68U2NPfh4MFtyIVWlsKtVbK5GD2/JzFyAfvT5ejA=="
+        crossorigin=""></script>
+
+
+    <style type="text/css">
+    #map {
+        width: 600px;
+        height: 400px;
+    }
+
+
+    </style>
+</head>
+
+<body>
+
+
+  <div id="map"></div>
+
+  <script type="text/javascript">
+  let mapboxTiles = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
+      attribution: '<a href="http://www.mapbox.com/about/maps/" target="_blank">Terms &amp; Feedback</a>'
+  });
+
+const colour =
+
+  L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+    maxZoom: 18,
+    id: 'mapbox/streets-v11',
+    tileSize: 512,
+    zoomOffset: -1,
+    accessToken: 'pk.eyJ1IjoiYWV1bmRlcmhpbGwiLCJhIjoiY2txaDgwYnd0MDY3MjJ3bWxjeHE1eTNhdiJ9.rzZ7FRFi_3LIJELE4KXRmA'
+});
+
+
+
+
+
+
+
+
+map = L.map('map')
+      .addLayer(mapboxTiles)
+      .addLayer(colour)
+      .setView([51.505, -0.09], 4); //need to make geolocation
+
+let points = {
+    "type": "FeatureCollection",
+    "features": [
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "Dunkin Donuts",
+                "address": "1 Broadway #1, Cambridge, MA 02142",
+                                "latitude": 42.362504,
+                "longitude": -71.083372
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [-71.083372, 42.362504]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "name": "Starbucks",
+                "address": "6 Cambridge Center, Cambridge, MA 02142",
+                                "latitude": 42.363884,
+                "longitude": -71.087749
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [-71.087749, 42.363884]
+            }
+        }
+    ]
+};
+
+
+
+//place the points by lat/lng on the map
+
+L.geoJson(points).addTo(map);
+
+//bind the name of each location with pop-up
+
+L.geoJson(points, {
+    onEachFeature: function (feature, layer) {
+        layer.bindPopup(feature.properties.name);
+    }
+}).addTo(map);
+
+
+
+//search the map
+
+  let searchControl = L.esri.Geocoding.geosearch().addTo(map);
+
+  let results = L.layerGroup().addTo(map);
+
+  searchControl.on('results', function (data) {
+    //console.log(data)
+    results.clearLayers();
+    for (var i = data.results.length - 1; i >= 0; i--) {
+      results.addLayer(L.marker(data.results[i].latlng));
+    }
+  });
+
+let popup = L.popup();
+
+// write a function that will populate the popup element using methods from the popup object
+function onMapClick(e) {
+        popup
+        .setLatLng(e.latlng)
+        //.setContent("You clicked the map at " + e.latlng.toString())
+        L.marker(e.latlng).addTo(map)
+
+}
+
+// on click, run function to populate popup and open it on the map
+map.on('click', onMapClick);
+
+
+
+
+//marker1 = L.marker([51.505, -0.09]).addTo(map);
+//marker2 = L.marker([51.5, -0.11]).addTo(map);
+//marker3 = L.marker([51.5, -0.12]).addTo(map);
+
+
+
+
+    </script>
+</body>
+
 </html>
