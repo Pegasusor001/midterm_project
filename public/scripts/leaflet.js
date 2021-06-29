@@ -34,6 +34,7 @@ let googleSat = L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}',
   subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
 });
 
+
 var myIcon = L.icon({
         iconUrl: 'img/red_marker.png',
         iconSize: [40, 40],
@@ -59,3 +60,12 @@ var overlayMaps = {
 }
 
 L.control.layers(baseMaps, overlayMaps, { collapsed: true }).addTo(map);
+
+map.on('mouseover', function () {
+  console.log('your mouse is over the map')
+});
+
+map.on('mousemove', function (e) {
+  document.getElementsByClassName('coordinate')[0].innerHTML = 'lat: ' + e.latlng.lat + 'lng: ' + e.latlng.lng;
+  console.log('lat: ' + e.latlng.lat, 'lng: ' + e.latlng.lng)
+});
