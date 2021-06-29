@@ -1,60 +1,64 @@
+
+$(() => {
+
+  loadUsers();
+  loadMaps();
+  loadPoints();
+
+});
+
 const loadUsers = () => {
-  // fetch the users
-  $.get('/users')
-    .then((users) => {
-       return users;
+  $.ajax({
+    method: "GET",
+    url: "/users"
+  })
+    .then((data) =>  {
+      renderUsers(data.users);
     });
 }
 
 const loadMaps = () => {
-  // fetch the maps
-  $.get('/maps')
-  .then((maps) => {
-     return maps;
-  });
+  $.ajax({
+    method: "GET",
+    url: "/maps"
+  })
+    .then((data) =>  {
+      renderMaps(data.maps);
+    });
 }
 
 const loadPoints = () => {
-  // fetch the maps
-  $.get('/points')
-  .then((points) => {
-     return points;
-  });
+  $.ajax({
+    method: "GET",
+    url: "/points"
+  })
+    .then((data) =>  {
+      renderPoints(data.points);
+    });
 }
 
-const loadPointsByUserID = () => {
-  // fetch points by user
-  $.get('/points/id')
-  .then((points) => {
-     return points[0];
-  });
-}
-
-const createUserRow = function(user) {
-  const userName = user["name"];
-  const $user = $(
-    `<tr>${userName}</tr>`
-  );
-  return $user;
-};
-
-const renderUser = function (users) {
-  $("#users").html("");
-  for (const user in users) {
-    //Create an article element for each tweet
-    const $userElement = createUserRow(users[user]);
-    console.log($userElement);
-    $("#users").append($userElement);
+const renderUsers = function(users) {
+  const container = $("#user");
+  for (user of users) {
+    const item = $("<tr>").text(user.name);
+    container.append(item);
   }
 };
 
-$(() => {
+const renderPoints = function(points) {
+  const container = $("#point-list");
+  for (point of points) {
+    const item = $("<tr>").text(point.title);
+    container.append(item);
+  }
+};
 
-  const mapUsers = loadUsers();
-  console.log(mapUsers);
-  renderUser(mapUsers);
-  // const maps = loadMaps();
-  // const points = loadPoints();
+const renderMaps = function(maps) {
+  const container = $("#map-list");
+  for (map of maps) {
+    const item = $("<tr>").text(map.title);
+    console.log(map.title);
+    container.append(item);
+  }
+};
 
-
-});

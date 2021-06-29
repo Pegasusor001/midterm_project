@@ -14,6 +14,20 @@ module.exports = (db) => {
     //userQueries.getUsers(db)
     db.query("SELECT * FROM maps;")
       .then(data => {
+        const maps = data.rows;
+        res.json({ maps });
+      })
+      .catch(err => {
+        res
+          .status(500)
+          .json({ error: err.message });
+      });
+  });
+
+  router.get("/:id", (req, res) => {
+    //userQueries.getUsers(db)
+    db.query("SELECT * FROM maps WHERE id = $1;", [req.params.id])
+      .then(data => {
         const users = data.rows;
         res.json({ users });
       })
@@ -23,23 +37,8 @@ module.exports = (db) => {
           .json({ error: err.message });
       });
   });
+
   return router;
 };
 
-// module.exports = (db) => {
-//   router.get("/:id", (req, res) => {
-//     //userQueries.getUsers(db)
-//     db.query("SELECT * FROM maps WHERE id = $1;", [req.params.id])
-//       .then(data => {
-//         const users = data.rows;
-//         res.json({ users });
-//       })
-//       .catch(err => {
-//         res
-//           .status(500)
-//           .json({ error: err.message });
-//       });
-//   });
-//   return router;
-// };
 

@@ -14,6 +14,20 @@ module.exports = (db) => {
     //userQueries.getUsers(db)
     db.query("SELECT * FROM points;")
       .then(data => {
+        const points = data.rows;
+        res.json({ points });
+      })
+      .catch(err => {
+        res
+          .status(500)
+          .json({ error: err.message });
+      });
+  });
+
+  router.get("/:id", (req, res) => {
+    //userQueries.getUsers(db)
+    db.query("SELECT * FROM points WHERE id = $1;", [req.params.id])
+      .then(data => {
         const users = data.rows;
         res.json({ users });
       })
@@ -23,22 +37,7 @@ module.exports = (db) => {
           .json({ error: err.message });
       });
   });
+
   return router;
 };
 
-// module.exports = (db) => {
-//   router.get("/:id", (req, res) => {
-//     //userQueries.getUsers(db)
-//     db.query("SELECT * FROM points WHERE id = $1;", [req.params.id])
-//       .then(data => {
-//         const users = data.rows;
-//         res.json({ users });
-//       })
-//       .catch(err => {
-//         res
-//           .status(500)
-//           .json({ error: err.message });
-//       });
-//   });
-//   return router;
-// };
