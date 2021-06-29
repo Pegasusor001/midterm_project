@@ -22,7 +22,7 @@ module.exports = (database) => {
       userId: 1,
       email: database.getUserWithId(1).email
     };
-    res.render("leaflet.html");
+    res.render('leaflet.html');
   });
 
   router.get("/", (req, res) => {

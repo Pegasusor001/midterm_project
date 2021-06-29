@@ -7,8 +7,7 @@ const userDatabase = {
 };
 
 const mapDatabase = {
-  map1: { location: "Canada", userID: 1 },
-  map2: { location: "US", userID: 1 }
+  map1: { id: 1, title: "Canada", maps_url: 1, userID: 1 }
 };
 
 /// Users
