@@ -48,8 +48,6 @@ popup.addTo(map);
 
 var secondMarker = L.marker(mapDatabase.map1.marker['marker2'], { icon: myIcon, draggable: true });
 
-console.log(singleMarker.toGeoJSON())
-
 
 var baseMaps = {
   "Regular": regular,
@@ -59,7 +57,12 @@ var baseMaps = {
 
 var overlayMaps = {
   "First Marker": singleMarker,
-  'Second Marker': secondMarker,
+  // 'Second Marker': secondMarker,
 }
 
 L.control.layers(baseMaps, overlayMaps, { collapsed: true }).addTo(map);
+
+map.on('dblclick', function (e) {
+  L.marker(e.latlng).addTo(map)
+  console.log(e.latlng.lat, e.latlng.lng)
+})
