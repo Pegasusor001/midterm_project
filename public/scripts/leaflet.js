@@ -1,15 +1,19 @@
+const leafletUrl = 'https://api.maptiler.com/maps/basic/{z}/{x}/{y}.png?key=UwQIUxGO3h6myKklxZEq';
+const leafletAttribution = '<a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>';
+const googleStreetsUrl = 'http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}';
+const googleSatUrl = 'http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}';
+
 const mapDatabase = {
   map1: {
     id: 1,
-    title: "London",
-    maps_url: 1,
-    url: 'https://api.maptiler.com/maps/basic/{z}/{x}/{y}.png?key=UwQIUxGO3h6myKklxZEq',
-    attribution: '<a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>',
     userID: 1,
+    maps_id: 1,
+    title: "London",
     coordinate: [51.505, -0.09],
     marker: {
       'marker1': [51.505, -0.09],
-      'marker2': [51.605, -0.11]
+      'marker2': [51.605, -0.11],
+      'marker3': [51.405, -0.12],
     },
     is_public: true,
     description: 'xx',
@@ -17,52 +21,80 @@ const mapDatabase = {
   }
 };
 
+const pointDatabase = {
+  'marker1': {
+    map_id: 1,
+    title: 'shop1',
+    coordinate: [51.505, -0.09],
+    description: 'this is shop1'
+  },
+  'marker2': {
+    map_id: 1,
+    title: 'shop1',
+    coordinate: [51.405, -0.19],
+    description: 'this is shop2'
+  },
+  'marker3': {
+    map_id: 1,
+    title: 'shop1',
+    coordinate: [51.405, 0.01],
+    description: 'this is shop3'
+  }
+}
 
+let exportCoordinate;
+
+// initialize the map
 let map = L.map('map').setView(mapDatabase.map1.coordinate, 13);
 
-let regular = L.tileLayer(`${mapDatabase.map1.url}`, {
-  attribution: `${mapDatabase.map1.attribution}`
+//regular map
+let regular = L.tileLayer(`${leafletUrl}`, {
+  attribution: `${leafletAttribution}`
 })
 regular.addTo(map);
-
 // google street
-let googleStreets = L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
+let googleStreets = L.tileLayer(googleStreetsUrl, {
   maxZoom: 20,
   subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
 });
-
 //google satellite
-let googleSat = L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
+let googleSat = L.tileLayer(googleSatUrl, {
   maxZoom: 20,
   subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
 });
 
-
+// mark icons of user database
 var myIcon = L.icon({
   iconUrl: '/scripts/img/red_marker.png',
   iconSize: [40, 40],
 });
-var singleMarker = L.marker(mapDatabase.map1.marker['marker1'], { icon: myIcon, draggable: true });
-var popup = singleMarker.bindPopup('This is the Nepal. ' + singleMarker.getLatLng()).openPopup()
-popup.addTo(map);
-
-var secondMarker = L.marker(mapDatabase.map1.marker['marker2'], { icon: myIcon, draggable: true });
 
 
+//  display the pins in my database
+for (let marker in pointDatabase) {
+  var singleMarker = L.marker(pointDatabase[marker].coordinate, { icon: myIcon, draggable: false});
+  var popup = singleMarker.bindPopup(pointDatabase[marker].title + ': ' + pointDatabase[marker].description).openPopup()
+  popup.addTo(map);
+}
+
+// set up layers
 var baseMaps = {
   "Regular": regular,
   'Google Street': googleStreets,
   "Google Satellite": googleSat,
 };
-
-var overlayMaps = {
-  "First Marker": singleMarker,
-  // 'Second Marker': secondMarker,
-}
+var overlayMaps = {};
 
 L.control.layers(baseMaps, overlayMaps, { collapsed: true }).addTo(map);
 
-map.on('dblclick', function (e) {
-  L.marker(e.latlng).addTo(map)
-  console.log(e.latlng.lat, e.latlng.lng)
-})
+
+var marker;
+map.on('click', function(e) {
+    if(marker)
+        map.removeLayer(marker);
+    console.log(e.latlng); // e is an event object (MouseEvent in this case)
+    marker = L.marker(e.latlng).addTo(map);
+    exportCoordinate = e.latlng;
+});
+
+console.log(exportCoordinate)
