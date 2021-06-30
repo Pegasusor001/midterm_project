@@ -65,8 +65,6 @@ const colour =
 
 
 
-
-
 map = L.map('map')
       .addLayer(mapboxTiles)
       .addLayer(colour)
@@ -138,6 +136,7 @@ L.geoJson(mapDatabase, {
     results.clearLayers();
     for (var i = data.results.length - 1; i >= 0; i--) {
       results.addLayer(L.marker(data.results[i].latlng));
+      console.log(data.results[i])
     }
   });
 
