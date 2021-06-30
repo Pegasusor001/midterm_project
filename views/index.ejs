@@ -70,9 +70,16 @@ const colour =
 map = L.map('map')
       .addLayer(mapboxTiles)
       .addLayer(colour)
-      .setView([51.505, -0.09], 4); //need to make geolocation
+      //.addLayer(geoJSON files)
 
-let points = {
+      .setView([51.505, -0.09], 14) //need to make geolocation
+      .on("click", function(data) {
+          console.log(data.latlng)
+          //json.stringify(data.latlng)
+          //(data.latlng).push(mapDatabase)
+      })
+
+let mapDatabase = {
     "type": "FeatureCollection",
     "features": [
         {
@@ -108,11 +115,11 @@ let points = {
 
 //place the points by lat/lng on the map
 
-L.geoJson(points).addTo(map);
+L.geoJson(mapDatabase).addTo(map);
 
 //bind the name of each location with pop-up
 
-L.geoJson(points, {
+L.geoJson(mapDatabase, {
     onEachFeature: function (feature, layer) {
         layer.bindPopup(feature.properties.name);
     }

@@ -11,3 +11,4 @@ CREATE TABLE points (
   description TEXT,
   image_url VARCHAR(255)
 )
+

@@ -1,4 +1,4 @@
-const mapDatabase = {
+/*const mapDatabase = {
   map1: {
     id: 1,
     title: "London",
@@ -12,7 +12,51 @@ const mapDatabase = {
       'marker2': [51.605, -0.11]
     }
   }
+}; */
+
+//map database is really a function of map name
+//connect map name to user
+
+let mapDatabase =
+
+{
+  "type": "FeatureCollection",
+  "mapID": [
+      {
+          "type": "Feature",
+          "properties": {
+              "mapID": "",
+              "userID": "",
+              "title": "Dunkin Donuts",
+              "description": "",
+              "address": "1 Broadway #1, Cambridge, MA 02142",
+                              "latitude": 42.362504,
+              "longitude": -71.083372
+          },
+          "geometry": {
+              "type": "Point",
+              "coordinates": [-71.083372, 42.362504]
+          }
+      },
+      {
+          "type": "Feature",
+          "properties": {
+              "mapID": "",
+              "userID": "",
+              "title": "Starbucks",
+              "description": "",
+              "address": "6 Cambridge Center, Cambridge, MA 02142",
+                              "latitude": 42.363884,
+              "longitude": -71.087749
+          },
+          "geometry": {
+              "type": "Point",
+              "coordinates": [-71.087749, 42.363884]
+          }
+      }
+  ]
 };
+
 
 
 let map = L.map('map').setView(mapDatabase.map1.coordinate, 13);
