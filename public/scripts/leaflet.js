@@ -109,8 +109,8 @@ map.on('click', function(e) {
     marker = L.marker(e.latlng).addTo(map);
     exportCoordinate = e.latlng;
 
-    document.getElementById('lat').value = e.latlng.lat.toFixed(3);
-    document.getElementById('lat1').value = e.latlng.lat.toFixed(3);
-    document.getElementById('long').value = e.latlng.lng.toFixed(3);
-    document.getElementById('long1').value = e.latlng.lng.toFixed(3);
+    document.getElementById('global_map_lat').value = e.latlng.lat.toFixed(3);
+    document.getElementById('global_map_lat1').value = e.latlng.lat.toFixed(3);
+    document.getElementById('global_map_long').value = e.latlng.lng.toFixed(3);
+    document.getElementById('global_map_long1').value = e.latlng.lng.toFixed(3);
 });

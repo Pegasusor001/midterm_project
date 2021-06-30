@@ -17,6 +17,41 @@ router.use(cookieSession({
 }));
 
 module.exports = (database) => {
+  router.get("/", (req, res) => {
+    res.render('global_map');
+  });
+
+  router.post("/", (req, res) => {
+    const latitude = req.body.pointLat;
+    const longitude = req.body.pointLong;
+    const title = req.body.pointTitle;
+    const description = req.body.pointDescription;
+    const map_id = req.params.mapId;
+    console.log(map_id)
+    const user_id = req.session.user.id;
+
+    const point = {
+      latitude,
+      longitude,
+      title,
+      description,
+      map_id,
+      user_id
+    }
+
+    console.log(point)
+    database.addPoint(point)
+    .then(result => {
+      if (!result) {
+        res.send({error: "error"});
+        return;
+      }
+      console.log(result)
+      res.send('map added')
+    })
+    .catch(e => res.send(e));
+  });
+
   router.get("/:mapId", (req, res) => {
     const mapId = req.params.mapId;
     const templateVars = {
