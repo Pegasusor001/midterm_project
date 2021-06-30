@@ -63,6 +63,18 @@ let googleSat = L.tileLayer(googleSatUrl, {
   subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
 });
 
+// let searchControl = L.esri.Geocoding.geosearch().addTo(map);
+
+// let results = L.layerGroup().addTo(map);
+
+// searchControl.on('results', function (data) {
+//   //console.log(data)
+//   results.clearLayers();
+//   for (var i = data.results.length - 1; i >= 0; i--) {
+//     results.addLayer(L.marker(data.results[i].latlng));
+//   }
+// });
+
 // mark icons of user database
 var myIcon = L.icon({
   iconUrl: '/scripts/img/red_marker.png',
@@ -76,6 +88,8 @@ for (let marker in pointDatabase) {
   var popup = singleMarker.bindPopup(pointDatabase[marker].title + ': ' + pointDatabase[marker].description).openPopup()
   popup.addTo(map);
 }
+
+
 
 // set up layers
 var baseMaps = {

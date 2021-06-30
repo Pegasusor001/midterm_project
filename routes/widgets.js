@@ -31,6 +31,7 @@ module.exports = (database) => {
     const title = req.body.pointTitle;
     const description = req.body.pointDescription;
     const map_id = req.params.mapId;
+    console.log(map_id)
     const user_id = req.session.user.id;
 
     const point = {
