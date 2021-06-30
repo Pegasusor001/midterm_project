@@ -9,6 +9,13 @@ const bodyParser = require("body-parser");
 const sass       = require("node-sass-middleware");
 const app        = express();
 const morgan     = require('morgan');
+const cookieSession = require('cookie-session');
+const bcrypt     = require('bcrypt');
+
+app.use(cookieSession({
+  name: 'userId',
+  keys: ['key1', 'key2']
+}));
 
 // PG database client/connection setup
 const { Pool } = require('pg');
@@ -49,13 +56,16 @@ app.use("/api/widgets", widgetsRoutes(database));
 // Warning: avoid creating more routes in this file!
 // Separate them into separate routes files (see above).
 app.get("/", (req, res) => {
-  // console.log(req.session)
-  // const userId = res.session.userId;
+  let userId = undefined;
+  let email = undefined;
+  if (req.session.user){
+    userId = req.session.user.id;
+    email = req.session.user.email;
+  }
   const templateVars = {
-    userId: 1,
-    email: database.getUserWithId(1).email
+    userId,
+    email,
   };
-
   res.render("index.ejs", templateVars);
 });
 

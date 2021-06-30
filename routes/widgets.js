@@ -18,26 +18,42 @@ router.use(cookieSession({
 
 module.exports = (database) => {
   router.get("/:mapId", (req, res) => {
+    const mapId = req.params.mapId;
     const templateVars = {
-      userId: 1,
-      email: database.getUserWithId(1).email
+      mapId,
     };
-    res.render('leaflet.html');
+    res.render('leaflet', templateVars);
   });
 
-  router.get("/", (req, res) => {
-    let query = `SELECT * FROM widgets`;
-    console.log(query);
-    db.query(query)
-      .then(data => {
-        const widgets = data.rows;
-        res.json({ widgets });
-      })
-      .catch(err => {
-        res
-          .status(500)
-          .json({ error: err.message });
-      });
+  router.post("/:mapId", (req, res) => {
+    const latitude = req.body.pointLat;
+    const longitude = req.body.pointLong;
+    const title = req.body.pointTitle;
+    const description = req.body.pointDescription;
+    const map_id = req.params.mapId;
+    const user_id = req.session.user.id;
+
+    const point = {
+      latitude,
+      longitude,
+      title,
+      description,
+      map_id,
+      user_id
+    }
+
+    console.log(point)
+    database.addPoint(point)
+    .then(result => {
+      if (!result) {
+        res.send({error: "error"});
+        return;
+      }
+      console.log(result)
+      res.send('map added')
+    })
+    .catch(e => res.send(e));
   });
+
   return router;
 };

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+  <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0' />
+  <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
+  <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
+  <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
+
+  <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
+
+</head>
+
+<body>
+  <div id="map"> tiles </div>
+
+  <form method="POST" action="/api/widgets/<%= mapId %>">
+    <label for="lat">Latitude</label>
+    <input id="lat1" name="pointLat" disabled='true'>
+    <input id="lat" name="pointLat" hidden>
+
+    <label for="long">Longitude</label>
+    <input id="long1" name="pointLong" disabled='true'>
+    <input id="long" name="pointLong" hidden>
+
+    <label for="pointTitle">Title</label>
+    <input type="text" id="pointTitle" name="pointTitle">
+
+    <label for="pointDescription">Description</label>
+    <input type="text" id="pointDescription" name="pointDescription">
+
+    <button type="submit"> Create New </button>
+  </form>
+
+</body>
+
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+<script src="/scripts/leaflet.js"></script>
+
+</html>

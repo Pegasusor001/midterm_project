@@ -7,7 +7,6 @@ const mapDatabase = {
   map1: {
     id: 1,
     userID: 1,
-    maps_id: 1,
     title: "London",
     coordinate: [51.505, -0.09],
     marker: {
@@ -92,9 +91,11 @@ var marker;
 map.on('click', function(e) {
     if(marker)
         map.removeLayer(marker);
-    console.log(e.latlng); // e is an event object (MouseEvent in this case)
     marker = L.marker(e.latlng).addTo(map);
     exportCoordinate = e.latlng;
-});
 
-console.log(exportCoordinate)
+    document.getElementById('lat').value = e.latlng.lat.toFixed(3);
+    document.getElementById('lat1').value = e.latlng.lat.toFixed(3);
+    document.getElementById('long').value = e.latlng.lng.toFixed(3);
+    document.getElementById('long1').value = e.latlng.lng.toFixed(3);
+});

@@ -23,7 +23,37 @@ $(document).ready(function() {
 
   $('.create_new').on('click', function(event){
     event.preventDefault();
-    $('main').html('<p>map information</p>')
+    $('main').html(`
+    <form action="/api/widgets/" method="post">
+      <div class='map_create_new'>
+        <div class='map_infor_input'>
+          <div class="map_title">
+            <label>Map Title</label>
+            <input name="map_title"/>
+          </div>
+
+          <div class="map_new_latitude">
+            <label>Latitude</label>
+            <input name="map_new_latitude"/>
+          </div>
+
+          <div class="map_new_longitude">
+            <label>Longitude</label>
+            <input name="map_new_longitude"/>
+          </div>
+
+          <div class="map_new_user_email">
+            <label>Your Email Address</label>
+            <input name="map_new_user_email"/>
+          </div>
+        </div>
+
+        <div class="password_submit">
+            <button>Create</button>
+        </div>
+      </div>
+    </form>
+    `)
   })
 
   $('.search').on('click', function(event){
