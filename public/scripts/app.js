@@ -17,6 +17,23 @@ $(document).ready(function() {
           <div class="myMaps_support">support information</div>
         </footer>
       </section>
+    </article>
+
+    <article class="myMaps_listing">
+      <section class="myMaps_preview_image">
+        <img src='https://upload.wikimedia.org/wikipedia/commons/a/aa/World_Map.jpg'>
+      </section>
+      <section class="myMaps_infor">
+        <h3 class="myMaps_title">Map Title2</h3>
+        <ul class="myMaps_details">
+          <li>Tag1: </li>
+          <li>Tag2: </li>
+          <li>Tag3: </li>
+        </ul>
+        <footer class="myMaps_footer">
+          <div class="myMaps_support">support information</div>
+        </footer>
+      </section>
     </article>`
     )
   })

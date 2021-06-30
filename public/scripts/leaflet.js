@@ -41,6 +41,7 @@ const pointDatabase = {
   }
 }
 
+
 let exportCoordinate;
 
 // initialize the map
