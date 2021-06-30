@@ -7,6 +7,7 @@
 
 
 const express = require('express');
+const bodyParser = require("body-parser");
 const router  = express.Router();
 const cookieSession = require('cookie-session');
 const bcrypt = require('bcrypt');
@@ -22,26 +23,24 @@ module.exports = (database) => {
   });
 
   router.post("/", (req, res) => {
-    const latitude = req.body.pointLat;
-    const longitude = req.body.pointLong;
-    const title = req.body.pointTitle;
-    const description = req.body.pointDescription;
-    const map_id = req.params.mapId;
-    console.log(map_id)
+    const start_latitude = req.body.global_map_lat;
+    const start_longitude = req.body.global_map_long;
+    const title = req.body.global_map_title;
+    const description = req.body.global_map_description;
     const user_id = req.session.user.id;
 
-    const point = {
-      latitude,
-      longitude,
+    const map = {
+      start_latitude,
+      start_longitude,
       title,
       description,
-      map_id,
       user_id
     }
 
-    console.log(point)
-    database.addPoint(point)
+    database.addMap(map)
     .then(result => {
+      console.log('add map')
+      console.log(result)
       if (!result) {
         res.send({error: "error"});
         return;
@@ -51,6 +50,16 @@ module.exports = (database) => {
     })
     .catch(e => res.send(e));
   });
+
+  router.get('/myMaps', (req, res) => {
+    user_id = req.session.user.id;
+    database.getMapsbyUserId(user_id)
+    .then((result) => {
+      res.json(result);
+    })
+    // res.send('maps added')
+
+  })
 
   router.get("/:mapId", (req, res) => {
     const mapId = req.params.mapId;

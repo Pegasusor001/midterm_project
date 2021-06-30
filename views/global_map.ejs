@@ -151,20 +151,7 @@ searchControl.on('results', function (data) {
   }
 });
 
-let popup = L.popup();
-
-// write a function that will populate the popup element using methods from the popup object
-function onMapClick(e) {
-  popup
-  .setLatLng(e.latlng)
-  //.setContent("You clicked the map at " + e.latlng.toString())
-  L.marker(e.latlng).addTo(map)
-}
-
-// on click, run function to populate popup and open it on the map
-map.on('click', onMapClick);
-
-    </script>
+  </script>
 </body>
 
 </html>

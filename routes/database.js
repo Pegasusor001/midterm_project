@@ -7,22 +7,22 @@ const pool = new Pool({
   database: 'midterm'
 });
 
-const user = {email: 'Kobe@email.com', name: 'Kobe'}
-const map = {
-  user_id: 1,
-  title: 'test',
-  start_latitude: 51,
-  start_longitude: 0,
-  description: 'this is test',
-}
-const point = {
-  user_id: 1,
-  map_id: 1,
-  title: 'test',
-  start_latitude: 51,
-  start_longitude: 0,
-  description: 'this is test',
-}
+// const user = {email: 'Kobe@email.com', name: 'Kobe'}
+// const map = {
+//   user_id: 1,
+//   title: 'test',
+//   start_latitude: 51,
+//   start_longitude: 0,
+//   description: 'this is test',
+// }
+// const point = {
+//   user_id: 1,
+//   map_id: 1,
+//   title: 'test',
+//   start_latitude: 51,
+//   start_longitude: 0,
+//   description: 'this is test',
+// }
 
 /// Users
 const getUserWithEmail = function(email) {
