@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+
     <title>Home Page</title>
 
     <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
@@ -16,13 +17,24 @@
 
     <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
     <script type="text/javascript" src="/scripts/app.js"></script>
+    <script type="text/javascript" src="/scripts/user_queries.js"></script>
+    <script type="text/javascript" src="/scripts/map_queries.js"></script>
+    <script type="text/javascript" src="/scripts/point_queries.js"></script>
+
   </head>
 
   <body class="body-layout">
 
     <nav>
-      <span id="user"></span>
-      <span>Wiki Map</span>
+      <form method="POST" action="/users/:id" id="user-form">
+        <div class="form-layout">
+          <button id="user-lookup" type="submit">Lookup User</button>
+        </div>
+        <textarea placeholder="Enter email" class="textAreaFormat" id="map-text"></textarea>
+      </form>
+      <form method="POST" action="/maps/" id="map-form">
+        <button id="map-submit" type="submit">Add Map</button>
+      </form>
     </nav>
 
     <div class="main">

@@ -7,13 +7,13 @@
 
 const express = require('express');
 const router  = express.Router();
-const userQueries = require('../lib/user_queries');
-const mapQueries = require('../lib/user_queries');
-const pointQueries = require('../lib/user_queries');
+const userQueries = require('../public/scripts/user_queries');
+const mapQueries = require('../public/scripts/map_queries');
+const pointQueries = require('../public/scripts/point_queries');
 
 module.exports = (db) => {
   router.get("/", (req, res) => {
-    //userQueries.getUsers(db)
+    console.log(req.body);
     db.query("SELECT * FROM users;")
       .then(data => {
         const users = data.rows;
@@ -27,7 +27,6 @@ module.exports = (db) => {
   });
 
   router.get("/:id", (req, res) => {
-    //userQueries.getUsers(db)
     db.query("SELECT * FROM users WHERE id = $1;", [req.params.id])
       .then(data => {
         const users = data.rows;

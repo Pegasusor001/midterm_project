@@ -1,9 +1,9 @@
 
 $(() => {
 
-  loadUsers();
-  loadMaps();
-  loadPoints();
+  // loadUsers();
+  // loadMaps();
+  // loadPoints();
 
 });
 
