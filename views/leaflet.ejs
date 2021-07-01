@@ -29,9 +29,6 @@
     <label for="pointDescription">Description</label>
     <input type="text" id="pointDescription" name="pointDescription">
 
-    <label for="point_is_favourite"> favorite </label><br>
-    <input type="checkbox" id="point_is_favourite" name="point_is_favourite">
-
     <button type="submit"> Create New </button>
   </form>
 
@@ -52,49 +49,10 @@
 <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
 
 <script>
-  const leafletUrl = 'https://api.maptiler.com/maps/basic/{z}/{x}/{y}.png?key=UwQIUxGO3h6myKklxZEq';
+const leafletUrl = 'https://api.maptiler.com/maps/basic/{z}/{x}/{y}.png?key=UwQIUxGO3h6myKklxZEq';
 const leafletAttribution = '<a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>';
 const googleStreetsUrl = 'http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}';
 const googleSatUrl = 'http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}';
-
-const mapDatabase = {
-  map1: {
-    id: 1,
-    userID: 1,
-    title: "London",
-    coordinate: [51.505, -0.09],
-    marker: {
-      'marker1': [51.505, -0.09],
-      'marker2': [51.605, -0.11],
-      'marker3': [51.405, -0.12],
-    },
-    is_public: true,
-    description: 'xx',
-    image: 'url',
-  }
-};
-
-const pointDatabase = {
-  'marker1': {
-    map_id: 1,
-    title: 'shop1',
-    coordinate: [51.505, -0.09],
-    description: 'this is shop1'
-  },
-  'marker2': {
-    map_id: 1,
-    title: 'shop1',
-    coordinate: [51.405, -0.19],
-    description: 'this is shop2'
-  },
-  'marker3': {
-    map_id: 1,
-    title: 'shop1',
-    coordinate: [51.405, 0.01],
-    description: 'this is shop3'
-  }
-}
-
 
 
 // initialize the map
