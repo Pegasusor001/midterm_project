@@ -1,43 +1,3 @@
-
-$(document).ready(function() {
-  $('.my_maps').on('click', function(event){
-    event.preventDefault();
-    $('main').append(
-    `<article class="myMap_listing">
-      <section class="myMaps-preview_image">
-        <img src='https://www.google.com/search?q=map&sxsrf=ALeKk03BkEOasTb0S97wAb8Wfj11KtFNtQ:1624842477747&source=lnms&tbm=isch&sa=X&ved=2ahUKEwj9sc71kbnxAhXQ0p4KHSzgAd0Q_AUoAnoECAEQBQ&biw=1440&bih=679#imgrc=YAE5kjD8I51L8M'>
-      </section>
-      <section class="myMaps_details">
-        <h3 class="myMaps_title">Map Title</h3>
-        <ul class="myMaps_details">
-          <li>Tag1: </li>
-          <li>Tag2: </li>
-          <li>Tag3: </li>
-        </ul>
-        <footer class="myMaps_footer">
-          <div class="myMaps_support">support information</div>
-        </footer>
-      </section>
-    </article>`
-    )
-  })
-
-  $('.create_new').on('click', function(event){
-    event.preventDefault();
-    $('main').append('<p>map information</p>')
-  })
-
-  $('.search').on('click', function(event){
-    event.preventDefault();
-    $('main').append('<p>search information</p>')
-  })
-
-  $('.my_profile').on('click', function(event){
-    event.preventDefault();
-    $('main').append('<p>Profile</p>')
-  })
-})
-
 let mapboxTiles = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
       attribution: '<a href="http://www.mapbox.com/about/maps/" target="_blank">Terms &amp; Feedback</a>'
   });
@@ -143,13 +103,21 @@ function onMapClick(e) {
         popup
         .setLatLng(e.latlng);
         //.setContent("You clicked the map at " + e.latlng.toString())
-        marker = new L.marker(e.latlng);
+        marker = L.marker(e.latlng);
+
         map.addLayer(marker);
+        //console.log(map.addLayer)
         markerArray.push(marker);
-        console.log(markerArray);
+        const onMarkerClick = function(e) {
+
+          console.log(e.latlng)
+        }
+        marker.on('click', onMarkerClick);
+        console.log(e.latlng);
         //console.log(map)
 
 }
+
 
 //let crossRef = function(latlng) {
 
@@ -225,20 +193,6 @@ map.on('click', onMapClick); */
 //marker3 = L.marker([51.5, -0.12]).addTo(map);
 
 
+$(document).ready(function(){
 
-
-
-
-
-
-// $(() => {
-//   $.ajax({
-//     method: "GET",
-//     url: "/api/users"
-//   }).done((users) => {
-//     for(user of users) {
-//       $("<div>").text(user.name).appendTo($("body"));
-//     }
-//   });;
-// });
-
+})
