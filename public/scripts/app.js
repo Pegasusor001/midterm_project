@@ -1,4 +1,16 @@
 $(document).ready(function() {
+  $.ajax({
+    url: "http://localhost:8030/api/widgets/test",
+    method: "GET",
+    dataType: "JSON",
+    success: function(data, status, XHR) {
+      console.log(data)
+    }
+  })
+
+
+
+
   $('.my_maps').on('click', function(event){
     event.preventDefault();
     $('main').html('');

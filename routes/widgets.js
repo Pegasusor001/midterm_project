@@ -61,12 +61,54 @@ module.exports = (database) => {
 
   })
 
+  router.get("/test", (req, res) => {
+    const mapId = req.params.mapId;
+    const userId = req.session.user.id;
+    const startCoordinates = [];
+    const templateVars = {};
+
+    res.json({
+      startCoordinates,
+      mapId
+    }, 200)
+
+
+    // database.getMapbyMapId(mapId)
+    // .then((result) => {
+    //   startCoordinates.push(result[0].start_latitude, result[0].start_longitude);
+
+
+    //   database.getPointsbyUserId(1, 2)
+    //   .then((result) => {
+    //     templateVars.point = result;
+    //     templateVars.startCoordinates = startCoordinates;
+    //     templateVars.mapId = mapId
+
+    //       res.json('leaflet', templateVars);
+    //     })
+    //   })
+
+  });
+
   router.get("/:mapId", (req, res) => {
     const mapId = req.params.mapId;
-    const templateVars = {
-      mapId,
-    };
-    res.render('leaflet', templateVars);
+    const userId = req.session.user.id;
+    const startCoordinates = [];
+    const templateVars = {};
+
+    database.getMapbyMapId(mapId)
+    .then((result) => {
+      startCoordinates.push(result[0].start_latitude, result[0].start_longitude);
+      database.getPointsbyUserId(1, 2)
+      .then((result) => {
+        templateVars.point = result;
+        templateVars.startCoordinates = startCoordinates;
+        templateVars.mapId = mapId
+
+          res.render('leaflet', templateVars);
+        })
+      })
+
   });
 
   router.post("/:mapId", (req, res) => {
@@ -87,7 +129,6 @@ module.exports = (database) => {
       user_id
     }
 
-    console.log(point)
     database.addPoint(point)
     .then(result => {
       if (!result) {
@@ -95,7 +136,7 @@ module.exports = (database) => {
         return;
       }
       console.log(result)
-      res.send('map added')
+      res.redirect(`http://localhost:8030/api/widgets/${map_id}`)
     })
     .catch(e => res.send(e));
   });

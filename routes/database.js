@@ -80,6 +80,18 @@ const getMapsbyUserId = function(id) {
 }
 exports.getMapsbyUserId= getMapsbyUserId;
 
+const getMapbyMapId = function(id) {
+  return pool
+  .query(`SELECT * FROM maps where id = $1`, [id])
+  .then((result) => {
+    return result.rows;
+  })
+  .catch((err) => {
+    console.log(err.message);
+  });
+}
+exports.getMapbyMapId= getMapbyMapId;
+
 const addMap = (map) => {
   let queryParams = [
     map.user_id,
