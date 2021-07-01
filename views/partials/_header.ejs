@@ -1,0 +1,25 @@
+<header>
+  <nav>
+    <div class="navigation">
+      <ul class="navigation_list">
+        <a class="app_title" href="/">Maps App</a>
+        <a class='my_maps' href="/">My Maps</a>
+        <a class='create_new' href="/widgets/api/new">Create New Maps</a>
+        <a class="search" href="/widgets/api/search">Search</a>
+        <a class='my_profile' href="/users/api/profile">Update Your Profile</a>
+      </ul>
+    </div>
+
+    <div class="log_status">
+        <% if (userId) { %>
+          <p>Logged In As: <%=email%></p>
+          <form method="POST" action="api/users/logout">
+            <button type="submit">Logout</button>
+          </form>
+        <% } else { %>
+          <a href="/api/users/login">Login</a>
+          <a href="/api/users/register">Register</a>
+        <% } %>
+    </div>
+  </nav>
+</header>
