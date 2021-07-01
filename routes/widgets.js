@@ -28,24 +28,27 @@ module.exports = (database) => {
     const title = req.body.global_map_title;
     const description = req.body.global_map_description;
     const user_id = req.session.user.id;
+    const is_favourite = req.body.global_map_is_favourite;
+
+    console.log(req.body)
+    console.log(is_favourite);
 
     const map = {
       start_latitude,
       start_longitude,
       title,
       description,
-      user_id
+      user_id,
+      is_favourite
     }
 
+    console.log(map)
     database.addMap(map)
     .then(result => {
-      console.log('add map')
-      console.log(result)
       if (!result) {
         res.send({error: "error"});
         return;
       }
-      console.log(result)
       res.send('map added')
     })
     .catch(e => res.send(e));
@@ -99,7 +102,7 @@ module.exports = (database) => {
     database.getMapbyMapId(mapId)
     .then((result) => {
       startCoordinates.push(result[0].start_latitude, result[0].start_longitude);
-      database.getPointsbyUserId(1, 2)
+      database.getPointsbyUserId(userId, mapId)
       .then((result) => {
         templateVars.point = result;
         templateVars.startCoordinates = startCoordinates;
@@ -116,15 +119,18 @@ module.exports = (database) => {
     const longitude = req.body.pointLong;
     const title = req.body.pointTitle;
     const description = req.body.pointDescription;
+    const is_favourite = req.body.point_is_favourite
     const map_id = req.params.mapId;
-    console.log(map_id)
     const user_id = req.session.user.id;
+
+    console.log(is_favourite)
 
     const point = {
       latitude,
       longitude,
       title,
       description,
+      is_favourite,
       map_id,
       user_id
     }

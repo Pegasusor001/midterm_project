@@ -30,5 +30,6 @@ CREATE TABLE points (
   longitude DECIMAL,
   title VARCHAR(255),
   description TEXT,
+
   image_url VARCHAR(255)
 );
