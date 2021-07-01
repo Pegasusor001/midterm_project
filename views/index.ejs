@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
     <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
 
+
     <!-- Load Leaflet from CDN -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
     integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
@@ -51,7 +52,26 @@
 
   <body>
     <%- include('partials/_header') %>
+    <!-- <a href="/api/users/login">Login</a>
+    <a href="/api/users/register">Register</a> -->
+    <main class="body-background">
 
-    <main></main>
+      <div class="log_status">
+        <% if (userId) { %>
+          <h2>Welcome to Memory Lane Wiki Map.  Here you'll find a fast and easy way to keep track of maps with markers that list your favourite places.  You can name your maps according to interest and keep track of places you've visited and organize them by location type.  If coffee is your thing you can save your favourite coffee shops.  If music is your thing, you can keep track of the best local record shops.  You can organize it however you like!  Enjoy!
+          <a class='my_maps' href="/">Go to your maps!</a>
+          </h2>
+          <p>
+
+          </p>
+        <% } else { %>
+          <h2>
+            Welcome to Memory Lane Wiki Map.  Here you'll find a fast and easy way to keep track of maps with markers that list your favourite places.  You can name your maps according to interest and keep track of places you've visited and organize them by location type.  If coffee is your thing you can save your favourite coffee shops.  If music is your thing, you can keep track of the best local record shops.  You can organize it however you like!  Enjoy!
+          </h2>
+        <% } %>
+
+    </div>
+
+    </main>
   </body>
 </html>

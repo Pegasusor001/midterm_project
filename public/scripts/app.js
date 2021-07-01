@@ -1,10 +1,15 @@
 $(document).ready(function() {
+
+  $('').on('click', function(event){
+
+  })
+
   $('.my_maps').on('click', function(event){
     event.preventDefault();
     $('main').html('');
     $.ajax({
       dataType: "json",
-      url: 'http://localhost:8030/api/widgets/myMaps',
+      url: 'http://localhost:8080/api/widgets/myMaps',
       method: "GET"
     })
     .then((result) => {
@@ -32,48 +37,12 @@ $(document).ready(function() {
     // )
   })
 
-  $('.create_new').on('click', function(event){
-    event.preventDefault();
-    $('main').html(`
-    <form action="/api/widgets/" method="post">
-      <div class='map_create_new'>
-        <div class='map_infor_input'>
-          <div class="map_title">
-            <label>Map Title</label>
-            <input name="map_title"/>
-          </div>
-
-          <div class="map_new_latitude">
-            <label>Latitude</label>
-            <input name="map_new_latitude"/>
-          </div>
-
-          <div class="map_new_longitude">
-            <label>Longitude</label>
-            <input name="map_new_longitude"/>
-          </div>
-
-          <div class="map_new_user_email">
-            <label>Your Email Address</label>
-            <input name="map_new_user_email"/>
-          </div>
-        </div>
-
-        <div class="password_submit">
-            <button>Create</button>
-        </div>
-      </div>
-    </form>
-
-
-
-    `)
-  })
 
   $('.search').on('click', function(event){
     event.preventDefault();
-    $('main').html(``)
-    $('body').append(`
+    $('main').empty();
+    $('main').html('');
+    $('main').html(`
     <div id="map"></div>
 
     <form method="POST" action="/api/widgets/">
@@ -186,6 +155,7 @@ $(document).ready(function() {
     </script>
     `)
   })
+
 })
 
 

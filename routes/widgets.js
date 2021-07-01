@@ -17,7 +17,7 @@ router.use(cookieSession({
   keys: ['key1', 'key2']
 }));
 
-module.exports = (database) => {
+module.exports = (db, database) => {
   router.get("/", (req, res) => {
     res.render('global_map');
   });
@@ -37,28 +37,25 @@ module.exports = (database) => {
       user_id
     }
 
-    database.addMap(map)
+    database.addMap(db, map)
     .then(result => {
-      console.log('add map')
-      console.log(result)
       if (!result) {
         res.send({error: "error"});
         return;
       }
-      console.log(result)
-      res.send('map added')
+      res.redirect("/");
     })
     .catch(e => res.send(e));
   });
 
   router.get('/myMaps', (req, res) => {
     user_id = req.session.user.id;
-    database.getMapsbyUserId(user_id)
-    .then((result) => {
-      res.json(result);
-    })
-    // res.send('maps added')
-
+    if (user_id) {
+      database.getMapsbyUserId(db, user_id)
+      .then((result) => {
+        res.json(result);
+      });
+    }
   })
 
   router.get("/:mapId", (req, res) => {
@@ -88,7 +85,7 @@ module.exports = (database) => {
     }
 
     console.log(point)
-    database.addPoint(point)
+    database.addPoint(db, point)
     .then(result => {
       if (!result) {
         res.send({error: "error"});
