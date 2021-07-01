@@ -7,23 +7,6 @@ const pool = new Pool({
   database: 'midterm'
 });
 
-// const user = {email: 'Kobe@email.com', name: 'Kobe'}
-// const map = {
-//   user_id: 1,
-//   title: 'test',
-//   start_latitude: 51,
-//   start_longitude: 0,
-//   description: 'this is test',
-// }
-// const point = {
-//   user_id: 1,
-//   map_id: 1,
-//   title: 'test',
-//   start_latitude: 51,
-//   start_longitude: 0,
-//   description: 'this is test',
-// }
-
 /// Users
 const getUserWithEmail = function(email) {
   return pool
@@ -118,6 +101,19 @@ const addMap = (map) => {
   });
 }
 exports.addMap = addMap;
+
+const deleteMap = (id) => {
+  return pool
+  .query(`DELETE FROM maps WHERE id = $1`, [id])
+  .then((result) => {
+    return result.rows;
+  })
+  .catch((err) => {
+    return err;
+  });
+}
+exports.deleteMap = deleteMap;
+
 
 // points
 const getPointsbyUserId = function(userId, mapId) {

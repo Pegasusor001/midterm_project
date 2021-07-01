@@ -1,19 +1,5 @@
 $(document).ready(function() {
-  $.ajax({
-    url: "http://localhost:8030/api/widgets/test",
-    method: "GET",
-    dataType: "JSON",
-    success: function(data, status, XHR) {
-      console.log(data)
-    }
-  })
-
-
-
-
-  $('.my_maps').on('click', function(event){
-    event.preventDefault();
-    $('main').html('');
+  const fetchMyMap = function () {
     $.ajax({
       dataType: "json",
       url: 'http://localhost:8030/api/widgets/myMaps',
@@ -36,13 +22,38 @@ $(document).ready(function() {
           <footer class="myMaps_footer">
             <div class="myMaps_support">support information</div>
           </footer>
+
+          <form method="POST" action="api/widgets/${i.id}/delete">
+            <button class="delete_map">Delete</button>
+          </form>
         </section>
       </article>
       `)
       }
     })
-    // )
+  }
+
+  const pathName = window.location.href;
+
+  if (pathName === 'http://localhost:8030/?page=myMap'){
+    fetchMyMap();
+  }
+
+  $.ajax({
+    url: "http://localhost:8030/api/widgets/test",
+    method: "GET",
+    dataType: "JSON",
+    success: function(data, status, XHR) {
+      console.log(data)
+    }
   })
+
+  $('.my_maps').on('click', function(event){
+    event.preventDefault();
+    $('main').html('');
+    fetchMyMap();
+  })
+
 
   $('.create_new').on('click', function(event){
     event.preventDefault();

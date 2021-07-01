@@ -42,7 +42,6 @@ module.exports = (database) => {
       is_favourite
     }
 
-    console.log(map)
     database.addMap(map)
     .then(result => {
       if (!result) {
@@ -74,23 +73,6 @@ module.exports = (database) => {
       startCoordinates,
       mapId
     }, 200)
-
-
-    // database.getMapbyMapId(mapId)
-    // .then((result) => {
-    //   startCoordinates.push(result[0].start_latitude, result[0].start_longitude);
-
-
-    //   database.getPointsbyUserId(1, 2)
-    //   .then((result) => {
-    //     templateVars.point = result;
-    //     templateVars.startCoordinates = startCoordinates;
-    //     templateVars.mapId = mapId
-
-    //       res.json('leaflet', templateVars);
-    //     })
-    //   })
-
   });
 
   router.get("/:mapId", (req, res) => {
@@ -113,6 +95,22 @@ module.exports = (database) => {
       })
 
   });
+
+  router.post("/:id/delete", (req, res) => {
+    const map_id = req.params.id;
+    console.log('on delete...........', map_id)
+    database.deleteMap(map_id)
+    .then(result => {
+      if (!result) {
+        res.send({error: "error"});
+        return;
+      }
+      res.redirect("/?page=myMap")
+    })
+    .catch(e => res.send(e));
+
+  });
+
 
   router.post("/:mapId", (req, res) => {
     const latitude = req.body.pointLat;
@@ -146,6 +144,5 @@ module.exports = (database) => {
     })
     .catch(e => res.send(e));
   });
-
   return router;
 };
