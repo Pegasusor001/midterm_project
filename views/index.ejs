@@ -62,20 +62,17 @@ const colour =
 
 
 
-
-
-
 map = L.map('map')
       .addLayer(mapboxTiles)
       .addLayer(colour)
       //.addLayer(geoJSON files)
 
       .setView([51.505, -0.09], 14) //need to make geolocation
-      .on("click", function(data) {
-          console.log(data.latlng)
+      //.on("click", function(data) {
+          //console.log(data)
           //json.stringify(data.latlng)
           //(data.latlng).push(mapDatabase)
-      })
+      //})
 
 let mapDatabase = {
     "type": "FeatureCollection",
@@ -136,14 +133,81 @@ L.geoJson(mapDatabase, {
     results.clearLayers();
     for (var i = data.results.length - 1; i >= 0; i--) {
       results.addLayer(L.marker(data.results[i].latlng));
-      console.log(data.results[i])
+      console.log(data.results[i].properties.LongLabel)
     }
   });
 
 let popup = L.popup();
 
-// write a function that will populate the popup element using methods from the popup object
+//let activatePoints =
+
+map.on('click', onMapClick);
+
+let markerArray = [];
 function onMapClick(e) {
+        popup
+        .setLatLng(e.latlng);
+        //.setContent("You clicked the map at " + e.latlng.toString())
+        marker = new L.marker(e.latlng);
+        map.addLayer(marker);
+        markerArray.push(e.latlng);
+        console.log(markerArray);
+
+}
+
+
+
+/*markersites.on('click', function(e) {
+  if (!e.target) {
+    map.removeLayer(e.target)
+  }
+
+}) */
+/*function saveClick(e) {
+  for (i = 0; i < markerArray.length; i++) {
+
+  }
+
+}*/
+
+/*let clickEnabled = true;
+map.on('keydown', function(e) {
+console.log('key down', e.originalEvent.key)
+  if (e.originalEvent.key === "s") {
+    clickEnabled = !clickEnabled //toggles the swtich
+    if (clickEnabled) {
+      console.log("enabling click")
+
+      map.on('click', saveClick)
+
+    } else {
+      console.log("disabled")
+      map.off('click', saveClick)
+    }
+  }
+}); */
+
+
+
+let clickEnabled = true;
+map.on('keydown', function(e) {
+console.log('key down', e.originalEvent.key)
+  if (e.originalEvent.key === " ") {
+    clickEnabled = !clickEnabled //toggles the swtich
+    if (clickEnabled) {
+      console.log("enabling click")
+
+      map.on('click', onMapClick)
+
+    } else {
+      console.log("disabled")
+      map.off('click', onMapClick)
+    }
+  }
+});
+
+// write a function that will populate the popup element using methods from the popup object
+/*function onMapClick(e) {
         popup
         .setLatLng(e.latlng)
         //.setContent("You clicked the map at " + e.latlng.toString())
@@ -152,7 +216,7 @@ function onMapClick(e) {
 }
 
 // on click, run function to populate popup and open it on the map
-map.on('click', onMapClick);
+map.on('click', onMapClick); */
 
 
 
