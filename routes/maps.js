@@ -7,7 +7,6 @@
 
 const express = require('express');
 const router  = express.Router();
-//const userQueries = require('../lib/user_queries');
 
 module.exports = (db) => {
   router.get("/", (req, res) => {

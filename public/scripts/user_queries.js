@@ -9,4 +9,4 @@ const addUser = (db, user) => {
       return err;
     });
 }
-module.exports = addUser;
+exports.addUser = addUser;

@@ -9,4 +9,4 @@ const addPoint = (db, userID, point) => {
       return err;
     });
 }
-module.exports = addPoint;
+exports.addPoint = addPoint;

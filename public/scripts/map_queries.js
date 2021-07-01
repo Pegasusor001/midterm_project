@@ -9,4 +9,4 @@ const addMap = (db, userID, map) => {
       return err;
     });
 }
-module.exports = addMap;
+exports.addMap = addMap;

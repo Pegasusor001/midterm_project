@@ -26,15 +26,20 @@
   <body class="body-layout">
 
     <nav>
-      <form method="POST" action="/users/:id" id="user-form">
+      <form method="POST" action="/email/" id="user-form">
         <div class="form-layout">
           <button id="user-lookup" type="submit">Lookup User</button>
         </div>
-        <textarea placeholder="Enter email" class="textAreaFormat" id="map-text"></textarea>
+        <textarea name="email" placeholder="Enter email" class="textAreaFormat" id="email-lookup"></textarea>
       </form>
+
       <form method="POST" action="/maps/" id="map-form">
-        <button id="map-submit" type="submit">Add Map</button>
+        <div>
+          <button id="map-submit" type="submit">Add Map</button>
+        </div>
+        <textarea name="user-map" placeholder="Map title" class="textAreaFormat" id="user-map"></textarea>
       </form>
+
     </nav>
 
     <div class="main">

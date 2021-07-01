@@ -1,11 +1,55 @@
 
 $(() => {
 
-  // loadUsers();
-  // loadMaps();
-  // loadPoints();
+  loadUsers();
+  loadMaps();
+  loadPoints();
+  console.log(loadUserEmail());
+
+  // $("#user-lookup").click(function(event) {
+
+  //   event.preventDefault();
+  //   const queryEmail = $("#user-form").serialize();
+  //   const formValues = $("#user-form").serializeArray();
+  //   const textAreaString = formValues[0]["value"];
+
+  //   if(textAreaString) {
+  //     console.log(getUserByEmail(queryEmail));
+  //   }
+
+  // });
+
+  // $("#map-lookup").click(function(event) {
+
+  //   event.preventDefault();
+  //   const queryMap = $("#map-form").serialize();
+  //   const formValues = $("#map-form").serializeArray();
+  //   const textAreaString = formValues[0]["value"];
+
+  //   if(textAreaString) {
+  //     loadUserEmail();
+  //   }
+
+  // });
 
 });
+
+const escape = function (str) {
+  let div = document.createElement("div");
+  div.appendChild(document.createTextNode(str));
+  return div.innerHTML;
+};
+
+
+const loadUserEmail = () => {
+  $.ajax({
+    method: "GET",
+    url: "/email"
+  })
+    .then((data) =>  {
+      return data.rows[0]
+    });
+}
 
 const loadUsers = () => {
   $.ajax({

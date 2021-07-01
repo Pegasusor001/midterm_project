@@ -7,9 +7,9 @@
 
 const express = require('express');
 const router  = express.Router();
-const userQueries = require('../public/scripts/user_queries');
-const mapQueries = require('../public/scripts/map_queries');
-const pointQueries = require('../public/scripts/point_queries');
+// const userQueries = require('../public/scripts/user_queries');
+// const mapQueries = require('../public/scripts/map_queries');
+// const pointQueries = require('../public/scripts/point_queries');
 
 module.exports = (db) => {
   router.get("/", (req, res) => {
@@ -26,11 +26,12 @@ module.exports = (db) => {
       });
   });
 
-  router.get("/:id", (req, res) => {
-    db.query("SELECT * FROM users WHERE id = $1;", [req.params.id])
+  router.get("/:email", (req, res) => {
+      console.log(req.body.email);
+      db.query("SELECT * FROM users WHERE email = $1;", [req.body.email])
       .then(data => {
-        const users = data.rows;
-        res.json({ users });
+        const users = data.rows[0];
+        res.json(users);
       })
       .catch(err => {
         res

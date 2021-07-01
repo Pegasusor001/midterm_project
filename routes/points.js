@@ -7,11 +7,9 @@
 
 const express = require('express');
 const router  = express.Router();
-//const userQueries = require('../lib/user_queries');
 
 module.exports = (db) => {
   router.get("/", (req, res) => {
-    //userQueries.getUsers(db)
     db.query("SELECT * FROM points;")
       .then(data => {
         const points = data.rows;
@@ -25,8 +23,20 @@ module.exports = (db) => {
   });
 
   router.get("/:id", (req, res) => {
-    //userQueries.getUsers(db)
     db.query("SELECT * FROM points WHERE id = $1;", [req.params.id])
+      .then(data => {
+        const users = data.rows;
+        res.json({ users });
+      })
+      .catch(err => {
+        res
+          .status(500)
+          .json({ error: err.message });
+      });
+  });
+
+  router.get("/pointlayer", (req, res) => {
+    db.query("INSERT INTO points (,,,,,) VALUES (,,,, FROM points WHERE i", [req.params.id])
       .then(data => {
         const users = data.rows;
         res.json({ users });
