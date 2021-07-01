@@ -1,19 +1,45 @@
+
 <!DOCTYPE html>
-<html>
-<head>
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
-  <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0' />
-  <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
-  <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
-  <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
+<html lang="en">
+    <head>
+      <meta charset="utf-8" />
+      <title>Geocoding Control</title>
+      <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
 
-  <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
+      <!-- Load Leaflet from CDN -->
+      <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
+      integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+      crossorigin=""/>
+      <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
+      integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
+      crossorigin=""></script>
 
+
+      <!-- Load Esri Leaflet from CDN -->
+      <script src="https://unpkg.com/esri-leaflet@2.4.1/dist/esri-leaflet.js"
+      integrity="sha512-xY2smLIHKirD03vHKDJ2u4pqeHA7OQZZ27EjtqmuhDguxiUvdsOuXMwkg16PQrm9cgTmXtoxA6kwr8KBy3cdcw=="
+      crossorigin=""></script>
+
+      <!-- Load Esri Leaflet Geocoder from CDN -->
+      <link rel="stylesheet" href="https://unpkg.com/esri-leaflet-geocoder@2.3.3/dist/esri-leaflet-geocoder.css"
+        integrity="sha512-IM3Hs+feyi40yZhDH6kV8vQMg4Fh20s9OzInIIAc4nx7aMYMfo+IenRUekoYsHZqGkREUgx0VvlEsgm7nCDW9g=="
+        crossorigin="">
+      <script src="https://unpkg.com/esri-leaflet-geocoder@2.3.3/dist/esri-leaflet-geocoder.js"
+        integrity="sha512-HrFUyCEtIpxZloTgEKKMq4RFYhxjJkCiF5sDxuAokklOeZ68U2NPfh4MFtyIVWlsKtVbK5GD2/JzFyAfvT5ejA=="
+        crossorigin=""></script>
+
+
+    <style type="text/css">
+    #map {
+      position:absolute;
+      top: 50px; bottom: 0; left: 25%; right:25%;
+      height: 400px;
+    }
+    </style>
 </head>
 
 <body>
-  <div id="map"> tiles </div>
-
+  <div id="map"></div>
   <form method="POST" action="/api/widgets/<%= mapId %>">
     <label for="lat">Latitude</label>
     <input id="lat1" name="pointLat" disabled='true'>
@@ -28,6 +54,9 @@
 
     <label for="pointDescription">Description</label>
     <input type="text" id="pointDescription" name="pointDescription">
+
+    <label for="point_is_favourite"> favorite </label><br>
+    <input type="checkbox" id="point_is_favourite" name="point_is_favourite">
 
     <button type="submit"> Create New </button>
   </form>
@@ -44,91 +73,100 @@
     </script>
   <%}) %>
 
-</body>
+  <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
 
-<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+  <script>
 
-<script>
-const leafletUrl = 'https://api.maptiler.com/maps/basic/{z}/{x}/{y}.png?key=UwQIUxGO3h6myKklxZEq';
-const leafletAttribution = '<a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>';
-const googleStreetsUrl = 'http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}';
-const googleSatUrl = 'http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}';
+  let mapboxTiles = L.tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
+      attribution: '<a href="http://www.mapbox.com/about/maps/" target="_blank">Terms &amp; Feedback</a>'
+  });
 
-
-// initialize the map
-let map = L.map('map').setView(['<%= startCoordinates[0]%>','<%= startCoordinates[1]%>'], 13);
-
-
-//regular map
-let regular = L.tileLayer(`${leafletUrl}`, {
-  attribution: `${leafletAttribution}`
-})
-regular.addTo(map);
-// google street
-let googleStreets = L.tileLayer(googleStreetsUrl, {
-  maxZoom: 20,
-  subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
-});
-//google satellite
-let googleSat = L.tileLayer(googleSatUrl, {
-  maxZoom: 20,
-  subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
+  const colour =
+  L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+    maxZoom: 18,
+    id: 'mapbox/streets-v11',
+    tileSize: 512,
+    zoomOffset: -1,
+    accessToken: 'pk.eyJ1IjoiYWV1bmRlcmhpbGwiLCJhIjoiY2txaDgwYnd0MDY3MjJ3bWxjeHE1eTNhdiJ9.rzZ7FRFi_3LIJELE4KXRmA'
 });
 
-// mark icons of user database
-var myIcon = L.icon({
+
+
+map = L.map('map')
+      .addLayer(mapboxTiles)
+      .addLayer(colour)
+      .setView(['<%= startCoordinates[0]%>','<%= startCoordinates[1]%>'], 14) //need to make geolocation
+
+
+  var myIcon = L.icon({
   iconUrl: '/scripts/img/red_marker.png',
   iconSize: [40, 40],
-});
-
+  });
 
 //  display the pins in my database
-for (let mar of a) {
-  console.log(mar)
-    var singleMarker = L.marker([mar.lat, mar.lng], { icon: myIcon, draggable: false});
-    var popup = singleMarker.bindPopup(mar.title + ': ' + mar.des).openPopup()
-    popup.addTo(map);
+  let singleMarker;
+
+  for (let mar of a) {
+    console.log(mar)
+      singleMarker = L.marker([mar.lat, mar.lng], { icon: myIcon, draggable: false});
+      var popup = singleMarker.bindPopup(mar.title + ': ' + mar.des).openPopup()
+      popup.addTo(map);
+  }
+  const onMarkerClick = function(event) {
+    console.log(event.latlng)
+  }
+  singleMarker.on('click', onMarkerClick);
+
+//search the map
+  let searchControl = L.esri.Geocoding.geosearch().addTo(map);
+  let results = L.layerGroup().addTo(map);
+
+  searchControl.on('results', function (data) {
+    //console.log(data)
+    results.clearLayers();
+    for (var i = data.results.length - 1; i >= 0; i--) {
+      results.addLayer(L.marker(data.results[i].latlng));
+    }
+  });
+
+//let activatePoints =
+
+map.on('click', onMapClick);
+let marker;
+function onMapClick(e) {
+  if(marker)
+  map.removeLayer(marker);
+  marker = L.marker(e.latlng).addTo(map);
+  document.getElementById('lat').value = e.latlng.lat.toFixed(3);
+  document.getElementById('lat1').value = e.latlng.lat.toFixed(3);
+  document.getElementById('long').value = e.latlng.lng.toFixed(3);
+  document.getElementById('long1').value = e.latlng.lng.toFixed(3);
+
+  console.log(e.latlng);
+
 }
 
 
-// set up layers
-var baseMaps = {
-  "Regular": regular,
-  'Google Street': googleStreets,
-  "Google Satellite": googleSat,
-};
-var overlayMaps = {};
+let clickEnabled = true;
+map.on('keydown', function(e) {
+console.log('key down', e.originalEvent.key)
+  if (e.originalEvent.key === " ") {
+    clickEnabled = !clickEnabled //toggles the swtich
+    if (clickEnabled) {
+      console.log("enabling click")
+      map.on('click', onMapClick)
 
-L.control.layers(baseMaps, overlayMaps, { collapsed: true }).addTo(map);
-
-
-var marker;
-map.on('click', function(e) {
-    if(marker)
-        map.removeLayer(marker);
-    marker = L.marker(e.latlng).addTo(map);
-    exportCoordinate = e.latlng;
-
-    document.getElementById('lat').value = e.latlng.lat.toFixed(3);
-    document.getElementById('lat1').value = e.latlng.lat.toFixed(3);
-    document.getElementById('long').value = e.latlng.lng.toFixed(3);
-    document.getElementById('long1').value = e.latlng.lng.toFixed(3);
-});
-
-
-</script>
-
-<script>
-  $(document).ready(function() {
-  $.ajax({
-    url: "http://localhost:8030/api/widgets/test",
-    method: "GET",
-    dataType: "JSON",
-    success: function(data, status, XHR) {
-      console.log(data)
+    } else {
+      console.log("disabled")
+      map.off('click', onMapClick)
     }
-  })
-  })
-</script>
+  }
+});
+  </script>
+
+
+
+</body>
 
 </html>
