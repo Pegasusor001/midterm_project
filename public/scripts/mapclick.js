@@ -98,6 +98,7 @@ let popup = L.popup();
 map.on('click', onMapClick);
 
 let markerArray = [];
+let savedPoint = [];
 
 function onMapClick(e) {
         popup
@@ -108,11 +109,14 @@ function onMapClick(e) {
         map.addLayer(marker);
         //console.log(map.addLayer)
         markerArray.push(marker);
-        const onMarkerClick = function(e) {
+        const onMarkerClick = function(event) {
 
-          console.log(e.latlng)
+          console.log(event.latlng)
+          savedPoint.push(event.latlng)
         }
+
         marker.on('click', onMarkerClick);
+
         console.log(e.latlng);
         //console.log(map)
 
