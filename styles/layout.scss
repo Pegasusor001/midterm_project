@@ -69,20 +69,24 @@ main {
 
   .myMaps_listing{
     display: flex;
-    flex-direction: row;
-    align-items: center;
+    flex-direction: column;
+    align-content: center;
     justify-content: center;
-    padding: 1em;
     margin: auto;
     .myMaps_infor{
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      font-size:x-large;
       margin: 20px;
       margin-left: 20%;
       .myMaps_details{
         display: flex;
         flex-direction: column;
         justify-content: center;
-        color:rgb(206, 155, 24);
-        padding-left: 1em;
+        font-size:x-large;
+        font-weight: bold;
+        color: rgb(237, 219, 22);
       }
     }
   }
@@ -146,13 +150,10 @@ main {
 }
 .mapinfo {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  margin:auto;
+  justify-content: space-between;
   flex-direction: column;
-  width: 100%;
+  width: 300px;
   padding: 2em;
   border-radius: 5px;
-  padding: 1em;
   color: red;
 }

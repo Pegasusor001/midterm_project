@@ -1,9 +1,5 @@
 $(document).ready(function() {
 
-  $('').on('click', function(event){
-
-  })
-
   $('.my_maps').on('click', function(event){
     event.preventDefault();
     $('main').html('');
@@ -16,32 +12,25 @@ $(document).ready(function() {
       for(let i of result){
         $('main').append(
         `<article class="myMaps_listing">
-          <section class="myMaps_preview_image">
-            <i class="fas fa-compass"></i>
-          </section>
+
           <section class="myMaps_infor">
-          <a href="/api/widgets/${i.id}" class="myMaps_title">Map Title ${i.id} </a>
-          <ul class="myMaps_details">
-            <li>${i.id}</li>
-            <li>${i.title}</li>
-            <li>${i.description} </li>
-          </ul>
+            <a href="/api/widgets/${i.id}" class="myMaps_title"><i class="fas fa-compass"></i>Map Number ${i.id} </a>
+            <ul class="myMaps_details">
+              <li>${i.id}</li>
+              <li>${i.title}</li>
+              <li>${i.description} </li>
+            </ul>
+            <form method="POST" action="api/widgets/${i.id}/delete">
+              <button class="delete_map">Delete</button>
+            </form>
+          </section>
 
-          <form method="POST" action="api/widgets/${i.id}/delete">
-            <button class="delete_map">Delete</button>
-          </form>
-
-          <footer class="myMaps_footer">
-            <div class="myMaps_support">support information</div>
-          </footer>
-        </section>
-      </article>
+        </article>
       `)
       }
     })
     // )
   })
-
 
   $('.search').on('click', function(event){
     event.preventDefault();
@@ -160,6 +149,37 @@ $(document).ready(function() {
     </script>
     `)
   })
+
+  $('.login').on('click', function(event){
+    event.preventDefault();
+    $('body').empty();
+    $('body').html(` <body>
+    <main style="margin: 1em;">
+      <h1>Login</h1>
+      <form method="POST" action="/api/users/login">
+        <label>Email address</label>
+        <input name='email' type="email">
+        <button type="submit">Login</button>
+      </form>
+    </main>`)
+      })
+
+  $('.register').on('click', function(event){
+    event.preventDefault();
+    $('body').empty();
+    $('body').html(`<main style="margin: 1em;">
+    <h1>Create Account</h1>
+    <form method="POST" action='/api/users/register'>
+      <label>Name</label>
+      <input name='name' type="text">
+      <label>Email address</label>
+      <input name='email' type="email">
+      <button type="submit">Register</button>
+    </form>
+  </main>`)
+      })
+
+
 
 })
 
