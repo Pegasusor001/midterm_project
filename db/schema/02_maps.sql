@@ -11,3 +11,4 @@ CREATE TABLE maps (
   image_url VARCHAR(255),
   description TEXT,
 );
+

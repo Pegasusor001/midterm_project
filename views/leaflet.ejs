@@ -31,7 +31,7 @@
     <style type="text/css">
     #map {
       position:absolute;
-      top: 50px; bottom: 0; left: 25%; right:25%;
+      top: 250px; bottom: 0; left: 25%; right:25%;
       height: 400px;
     }
     </style>
@@ -39,26 +39,51 @@
 
 <body>
   <div id="map"></div>
-  <form method="POST" action="/api/widgets/<%= mapId %>">
-    <label for="lat">Latitude</label>
-    <input id="lat1" name="pointLat" disabled='true'>
-    <input id="lat" name="pointLat" hidden>
+  <div class="point_form_add">
+    <form method="POST" action="/api/widgets/<%= mapId %>">
+      <label for="lat">Latitude</label>
+      <input id="lat1" name="pointLat" disabled='true'>
+      <input id="lat" name="pointLat" hidden>
 
-    <label for="long">Longitude</label>
-    <input id="long1" name="pointLong" disabled='true'>
-    <input id="long" name="pointLong" hidden>
+      <label for="long">Longitude</label>
+      <input id="long1" name="pointLong" disabled='true'>
+      <input id="long" name="pointLong" hidden>
 
-    <label for="pointTitle">Title</label>
-    <input type="text" id="pointTitle" name="pointTitle">
+      <label for="pointTitle">Title</label>
+      <input type="text" id="pointTitle" name="pointTitle">
 
-    <label for="pointDescription">Description</label>
-    <input type="text" id="pointDescription" name="pointDescription">
+      <label for="pointDescription">Description</label>
+      <input type="text" id="pointDescription" name="pointDescription">
 
-    <label for="point_is_favourite"> favorite </label><br>
-    <input type="checkbox" id="point_is_favourite" name="point_is_favourite">
+      <label for="point_is_favourite"> favorite </label><br>
+      <input type="checkbox" id="point_is_favourite" name="point_is_favourite">
 
-    <button type="submit"> Create New </button>
-  </form>
+      <button type="submit"> Create New Point </button>
+    </form>
+  </div>
+
+  <div class="map_form_update">
+    <form method="POST" action="/api/widgets/<%= mapId %>/edit">
+      <label for="lat_map_update">Latitude</label>
+      <input id="lat1_map_update" name="Lat_map_update" disabled='true'>
+      <input id="lat_map_update" name="Lat_map_update" hidden>
+
+      <label for="long_update">Longitude</label>
+      <input id="long1_map_update" name="Long_map_update" disabled='true'>
+      <input id="long_map_update" name="Long_map_update" hidden>
+
+      <label for="title_map_update">Title</label>
+      <input type="text" id="title_map_update" name="title_map_update">
+
+      <label for="description_map_update">Description</label>
+      <input type="text" id="description_map_update" name="description_map_update">
+
+      <label for="map_is_favourite_update"> favorite </label><br>
+      <input type="checkbox" id="map_is_favourite_update" name="map_is_favourite_update">
+
+      <button type="submit"> Update Map </button>
+    </form>
+  </div>
 
   <script> let a = []; </script>
   <%point.forEach((p)=>{ %>
@@ -122,6 +147,15 @@ map = L.map('map')
     results.clearLayers();
     for (var i = data.results.length - 1; i >= 0; i--) {
       results.addLayer(L.marker(data.results[i].latlng));
+      const e = data.results[i];
+      document.getElementById('lat').value = e.latlng.lat.toFixed(3);
+      document.getElementById('lat1').value = e.latlng.lat.toFixed(3);
+      document.getElementById('long').value = e.latlng.lng.toFixed(3);
+      document.getElementById('long1').value = e.latlng.lng.toFixed(3);
+      document.getElementById('lat_map_update').value = e.latlng.lat.toFixed(3);
+      document.getElementById('lat1_map_update').value = e.latlng.lat.toFixed(3);
+      document.getElementById('long_map_update').value = e.latlng.lng.toFixed(3);
+      document.getElementById('long1_map_update').value = e.latlng.lng.toFixed(3);
     }
   });
 
@@ -137,11 +171,16 @@ function onMapClick(e) {
   document.getElementById('lat1').value = e.latlng.lat.toFixed(3);
   document.getElementById('long').value = e.latlng.lng.toFixed(3);
   document.getElementById('long1').value = e.latlng.lng.toFixed(3);
-
-  console.log(e.latlng);
+  document.getElementById('lat_map_update').value = e.latlng.lat.toFixed(3);
+  document.getElementById('lat1_map_update').value = e.latlng.lat.toFixed(3);
+  document.getElementById('long_map_update').value = e.latlng.lng.toFixed(3);
+  document.getElementById('long1_map_update').value = e.latlng.lng.toFixed(3);
 
 }
 
+map.on('dblclick', function () {
+  map.removeLayer(marker);
+});
 
 let clickEnabled = true;
 map.on('keydown', function(e) {
@@ -159,9 +198,6 @@ console.log('key down', e.originalEvent.key)
   }
 });
   </script>
-
-
-
 </body>
 
 </html>

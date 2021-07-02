@@ -105,6 +105,33 @@ const deleteMap = (db, id) => {
 }
 exports.deleteMap = deleteMap;
 
+const updateMap = (db, map) => {
+  let queryParams = [
+    map.title,
+    map.is_public,
+    map.is_favourite,
+    map.image_url,
+    map.start_latitude,
+    map.start_longitude,
+    map.description,
+    map.id
+  ]
+
+  console.log(queryParams);
+  let queryString = `UPDATE maps
+  SET title = $1, is_public = $2, is_favourite = $3, image_url = $4, start_latitude = $5, start_longitude = $6, description = $7 WHERE id = $8 RETURNING *`;
+
+  return db
+  .query(queryString, queryParams)
+  .then((result) => {
+    return result.rows;
+  })
+  .catch((err) => {
+    return err;
+  });
+}
+exports.updateMap = updateMap;
+
 
 // points
 const getPointsbyUserId = function(db, userId, mapId) {
