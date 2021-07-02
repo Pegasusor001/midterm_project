@@ -15,7 +15,7 @@ $(document).ready(function() {
           <img src='https://upload.wikimedia.org/wikipedia/commons/a/aa/World_Map.jpg'>
           </section>
           <section class="myMaps_infor">
-          <a href="/api/widgets/${i.id}" class="myMaps_title">Map Title</a>
+          <a href="/api/widgets/${i.id}" class="myMaps_title">${i.title}</a>
           <ul class="myMaps_details">
             <li>Title: ${i.title}</li>
             <li>Description: ${i.description} </li>

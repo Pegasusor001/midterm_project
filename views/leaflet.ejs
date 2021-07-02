@@ -194,6 +194,8 @@ map = L.map('map')
       document.getElementById('lat1_map_update').value = e.latlng.lat.toFixed(3);
       document.getElementById('long_map_update').value = e.latlng.lng.toFixed(3);
       document.getElementById('long1_map_update').value = e.latlng.lng.toFixed(3);
+      document.getElementById('pointDescription').value = e.properties.LongLabel;
+      document.getElementById('pointTitle').value = e.properties.ShortLabel;
     }
   });
 
