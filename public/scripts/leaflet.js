@@ -42,7 +42,6 @@ const pointDatabase = {
 }
 
 
-let exportCoordinate;
 
 // initialize the map
 let map = L.map('map').setView(mapDatabase.map1.coordinate, 13);

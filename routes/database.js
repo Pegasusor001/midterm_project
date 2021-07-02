@@ -1,21 +1,3 @@
-// const user = {email: 'Kobe@email.com', name: 'Kobe'}
-// const map = {
-//   user_id: 1,
-//   title: 'test',
-//   start_latitude: 51,
-//   start_longitude: 0,
-//   description: 'this is test',
-// }
-// const point = {
-//   user_id: 1,
-//   map_id: 1,
-//   title: 'test',
-//   start_latitude: 51,
-//   start_longitude: 0,
-//   description: 'this is test',
-// }
-
-
 /// Users
 const getUserWithEmail = function(db, email) {
   return db
@@ -72,6 +54,18 @@ const getMapsbyUserId = function(db, id) {
 }
 exports.getMapsbyUserId= getMapsbyUserId;
 
+const getMapbyMapId = function(db, id) {
+  return db
+  .query(`SELECT * FROM maps where id = $1`, [id])
+  .then((result) => {
+    return result.rows;
+  })
+  .catch((err) => {
+    console.log(err.message);
+  });
+}
+exports.getMapbyMapId= getMapbyMapId;
+
 const addMap = (db, map) => {
   let queryParams = [
     map.user_id,
@@ -98,6 +92,19 @@ const addMap = (db, map) => {
   });
 }
 exports.addMap = addMap;
+
+const deleteMap = (db, id) => {
+  return db
+  .query(`DELETE FROM maps WHERE id = $1`, [id])
+  .then((result) => {
+    return result.rows;
+  })
+  .catch((err) => {
+    return err;
+  });
+}
+exports.deleteMap = deleteMap;
+
 
 // points
 const getPointsbyUserId = function(db, userId, mapId) {

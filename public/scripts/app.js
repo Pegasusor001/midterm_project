@@ -1,20 +1,13 @@
 $(document).ready(function() {
-
-  $('').on('click', function(event){
-
-  })
-
-  $('.my_maps').on('click', function(event){
-    event.preventDefault();
-    $('main').html('');
+  const fetchMyMap = function () {
     $.ajax({
       dataType: "json",
-      url: 'http://localhost:8080/api/widgets/myMaps',
+      url: '/api/widgets/myMaps',
       method: "GET"
     })
     .then((result) => {
       for(let i of result){
-        $('main').after(
+        $('main').append(
         `<article class="myMaps_listing">
           <section class="myMaps_preview_image">
           <img src='https://upload.wikimedia.org/wikipedia/commons/a/aa/World_Map.jpg'>
@@ -29,14 +22,75 @@ $(document).ready(function() {
           <footer class="myMaps_footer">
             <div class="myMaps_support">support information</div>
           </footer>
+
+          <form method="POST" action="api/widgets/${i.id}/delete">
+            <button class="delete_map">Delete</button>
+          </form>
         </section>
       </article>
       `)
       }
     })
-    // )
+  }
+
+  const pathName = window.location.href;
+
+  if (pathName === 'http://localhost:8030/?page=myMap'){
+    fetchMyMap();
+  }
+
+  $.ajax({
+    url: "http://localhost:8030/api/widgets/test",
+    method: "GET",
+    dataType: "JSON",
+    success: function(data, status, XHR) {
+      console.log(data)
+    }
   })
 
+  $('.my_maps').on('click', function(event){
+    event.preventDefault();
+    $('main').empty();
+    $('main').html('');
+    fetchMyMap();
+  })
+
+  $('.create_new').on('click', function(event){
+    event.preventDefault();
+    $('main').empty();
+    $('main').html('');
+    $('main').html(`
+    <form action="/api/widgets/" method="post">
+      <div class='map_create_new'>
+        <div class='map_infor_input'>
+          <div class="map_title">
+            <label>Map Title</label>
+            <input name="map_title"/>
+          </div>
+
+          <div class="map_new_latitude">
+            <label>Latitude</label>
+            <input name="map_new_latitude"/>
+          </div>
+
+          <div class="map_new_longitude">
+            <label>Longitude</label>
+            <input name="map_new_longitude"/>
+          </div>
+
+          <div class="map_new_user_email">
+            <label>Your Email Address</label>
+            <input name="map_new_user_email"/>
+          </div>
+        </div>
+
+        <div class="password_submit">
+            <button>Create</button>
+        </div>
+      </div>
+    </form>
+    `)
+  })
 
   $('.search').on('click', function(event){
     event.preventDefault();
@@ -57,6 +111,9 @@ $(document).ready(function() {
 
       <label for="global_map_description">Description</label>
       <input type="text" id="global_map_description" name="global_map_description">
+
+      <label for="global_map_is_favourite"> favourite </label>
+      <input type="checkbox" id="global_map_is_favourite" name="global_map_is_favourite">
 
       <button type="submit"> Create New </button>
     </form>
@@ -156,6 +213,35 @@ $(document).ready(function() {
     `)
   })
 
+  $('.my_profile').on('click', function(event){
+    event.preventDefault();
+    $('main').html(`
+    <form action="/api/users/password" method="post">
+      <div class='password_reset'>
+        <div class='password_input'>
+          <div class="password_email">
+            <label>Email Address</label>
+            <input type="email" name="email"/>
+          </div>
+
+          <div class="password_new">
+            <label>New Password</label>
+            <input name="password_new"/>
+          </div>
+
+          <div class="password_confirm">
+            <label>Confirm Your Password</label>
+            <input name="password_confirm"/>
+          </div>
+        </div>
+
+        <div class="password_submit">
+            <button>Submit</button>
+        </div>
+      </div>
+    </form>
+    `)
+  })
 })
 
 
