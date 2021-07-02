@@ -17,7 +17,7 @@ $(document).ready(function() {
         $('main').after(
         `<article class="myMaps_listing">
           <section class="myMaps_preview_image">
-          <img src='https://upload.wikimedia.org/wikipedia/commons/a/aa/World_Map.jpg'>
+          <i class="fas fa-compass"></i>
           </section>
           <section class="myMaps_infor">
           <a href="/api/widgets/${i.id}" class="myMaps_title">Map Title ${i.id} </a>

@@ -6,8 +6,5 @@ CREATE TABLE maps (
   title VARCHAR(255),
   is_public BOOLEAN,
   is_favourite BOOLEAN,
-  start_latitude DECIMAL NOT NULL DEFAULT 51.505,
-  start_longitude DECIMAL NOT NULL DEFAULT -0.09,
-  image_url VARCHAR(255),
-  description TEXT,
-);
+  maps_url VARCHAR(255)
+)
