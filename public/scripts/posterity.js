@@ -14,7 +14,7 @@ $(document).ready(function() {
     })
     .then((result) => {
       for(let i of result){
-        $('main').append(
+        $('main').after(
         `<article class="myMaps_listing">
           <section class="myMaps_preview_image">
             <i class="fas fa-compass"></i>

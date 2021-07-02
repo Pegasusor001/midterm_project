@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
     "local": "./node_modules/.bin/nodemon -L --ignore public/",
-    "db:reset": "node bin/resetdb.js"
+    "db:reset": "node bin/resetdb.js",
+    "sass-start-up": "sass --watch styles/layout.scss public/styles/layout.css"
   },
   "author": "Lighthouse Labs",
   "license": "ISC",
@@ -26,6 +27,7 @@
     "pg-native": "^3.0.0"
   },
   "devDependencies": {
-    "nodemon": "^2.0.7"
+    "nodemon": "^2.0.7",
+    "sass": "^1.35.1"
   }
 }

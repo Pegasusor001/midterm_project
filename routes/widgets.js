@@ -56,14 +56,48 @@ module.exports = (db, database) => {
         res.json(result);
       });
     }
-  })
+  });
+
+  // router.get("/:mapId", (req, res) => {
+  //   const mapId = req.params.mapId;
+  //   const templateVars = {
+  //     mapId,
+  //   };
+  //   res.render('leaflet', templateVars);
+  // });
 
   router.get("/:mapId", (req, res) => {
     const mapId = req.params.mapId;
-    const templateVars = {
-      mapId,
-    };
-    res.render('leaflet', templateVars);
+    const userId = req.session.user.id;
+    const startCoordinates = [];
+    const templateVars = {};
+
+    database.getMapbyMapId(db, mapId)
+    .then((result) => {
+      startCoordinates.push(result[0].start_latitude, result[0].start_longitude);
+      database.getPointsbyUserId(db, userId, mapId)
+      .then((result) => {
+        templateVars.point = result;
+        templateVars.startCoordinates = startCoordinates;
+        templateVars.mapId = mapId
+
+          res.render('leaflet', templateVars);
+        })
+      })
+  });
+
+  router.post("/:id/delete", (req,res) => {
+    const map_id = req.params.id;
+    console.log(map_id);
+    database.deleteMap(db,map_id)
+    .then(result => {
+      if (!result) {
+        res.send({error:"error"});
+        return;
+      }
+      res.redirect("/")
+    })
+    .catch(e => res.send(e))
   });
 
   router.post("/:mapId", (req, res) => {
@@ -92,7 +126,7 @@ module.exports = (db, database) => {
         return;
       }
       console.log(result)
-      res.send('map added')
+      res.redirect("/");
     })
     .catch(e => res.send(e));
   });

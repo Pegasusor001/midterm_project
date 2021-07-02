@@ -59,6 +59,7 @@ exports.getUserWithId = getUserWithId;
 exports.addUser = addUser;
 
 
+
 //maps
 const getMapsbyUserId = function(db, id) {
   return db
@@ -71,6 +72,30 @@ const getMapsbyUserId = function(db, id) {
   });
 }
 exports.getMapsbyUserId= getMapsbyUserId;
+
+const getMapbyMapId = function(db, id) {
+  return db
+  .query(`SELECT * FROM maps where id = $1`, [id])
+  .then((result) => {
+    return result.rows;
+  })
+  .catch((err) => {
+    console.log(err.message);
+  });
+}
+exports.getMapbyMapId= getMapbyMapId;
+
+const deleteMap = (db, id) => {
+  return db
+  .query(`DELETE FROM maps WHERE id = $1`, [id])
+  .then((result) => {
+    return result.rows;
+  })
+  .catch((err) => {
+    return err;
+  });
+}
+exports.deleteMap = deleteMap;
 
 const addMap = (db, map) => {
   let queryParams = [
