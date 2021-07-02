@@ -133,7 +133,7 @@ module.exports = (db, database) => {
         res.send({error: "error"});
         return;
       }
-      res.send('map updated')
+      res.redirect("/?page=myMap")
     })
     .catch(e => res.send(e));
   });
