@@ -99,8 +99,7 @@ module.exports = (db, database) => {
 
   router.post("/:id/delete", (req, res) => {
     const map_id = req.params.id;
-    console.log('on delete...........', map_id)
-    database.deleteMap(map_id)
+    database.deleteMap(db, map_id)
     .then(result => {
       if (!result) {
         res.send({error: "error"});
@@ -112,6 +111,33 @@ module.exports = (db, database) => {
 
   });
 
+  router.post("/:id/edit", (req, res) => {
+    const start_latitude = req.body.Lat_map_update;
+    const start_longitude = req.body.Long_map_update;
+    const title = req.body.title_map_update;
+    const description = req.body.description_map_update;
+    const id = req.params.id;
+    const is_favourite = req.body.map_is_favourite_update;
+
+    const map = {
+      start_latitude,
+      start_longitude,
+      title,
+      description,
+      id,
+      is_favourite
+    }
+
+    database.updateMap(db, map)
+    .then(result => {
+      if (!result) {
+        res.send({error: "error"});
+        return;
+      }
+      res.send('map updated')
+    })
+    .catch(e => res.send(e));
+  });
 
   router.post("/:mapId", (req, res) => {
     const latitude = req.body.pointLat;
