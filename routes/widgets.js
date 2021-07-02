@@ -56,7 +56,6 @@ module.exports = (db, database) => {
   router.get('/myMaps', (req, res) => {
     user_id = req.session.user.id;
     if (user_id) {
-      console.log('getmaps')
       database.getMapsbyUserId(db, user_id)
       .then((result) => {
         res.json(result);

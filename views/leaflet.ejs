@@ -31,8 +31,42 @@
     <style type="text/css">
     #map {
       position:absolute;
-      top: 250px; bottom: 0; left: 25%; right:25%;
-      height: 400px;
+      top: 50px; bottom: 0; left: 30%; right:10%;
+      height: 500px;
+    }
+
+    .point_form_add{
+        display: flex;
+        flex-direction: column;
+        width: 20%;
+        margin-top: 30px;
+        margin-left: 50px;
+        margin-right: 10px;
+        margin-bottom: 10px;
+        height: 250px;
+    }
+
+    .map_form_update{
+      display: flex;
+        flex-direction: column;
+        width: 20%;
+        margin-top: 30px;
+        margin-left: 50px;
+        margin-right: 10px;
+        margin-bottom: 10px;
+        height: 250px;
+    }
+
+    form{
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      justify-content: space-evenly;
+      color: red;
+    }
+
+    button{
+      width: 90%;
     }
     </style>
 </head>
@@ -55,8 +89,10 @@
       <label for="pointDescription">Description</label>
       <input type="text" id="pointDescription" name="pointDescription">
 
-      <label for="point_is_favourite"> favorite </label><br>
+      <div>
+      <label for="point_is_favourite"> favorite </label>
       <input type="checkbox" id="point_is_favourite" name="point_is_favourite">
+      </div>
 
       <button type="submit"> Create New Point </button>
     </form>
@@ -78,8 +114,10 @@
       <label for="description_map_update">Description</label>
       <input type="text" id="description_map_update" name="description_map_update">
 
-      <label for="map_is_favourite_update"> favorite </label><br>
+      <div>
+      <label for="map_is_favourite_update"> favorite </label><nobr>
       <input type="checkbox" id="map_is_favourite_update" name="map_is_favourite_update">
+      </div>
 
       <button type="submit"> Update Map </button>
     </form>
