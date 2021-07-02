@@ -2,28 +2,26 @@ $(document).ready(function() {
   const fetchMyMap = function () {
     $.ajax({
       dataType: "json",
-      url: '/api/widgets/myMaps',
+      url: 'api/widgets/myMaps',
       method: "GET"
     })
     .then((result) => {
+      $('main').empty();
+      $('main').html('');
       for(let i of result){
-        $('main').empty();
-        $('main').html('');
         $('main').append(
         `<article class="myMaps_listing">
           <section class="myMaps_preview_image">
           <img src='https://upload.wikimedia.org/wikipedia/commons/a/aa/World_Map.jpg'>
           </section>
           <section class="myMaps_infor">
-          <a href="/api/widgets/${i.id}" class="myMaps_title">Map Title ${i.id} </a>
+          <a href="/api/widgets/${i.id}" class="myMaps_title">Map Title</a>
           <ul class="myMaps_details">
-            <li>${i.id}</li>
-            <li>${i.title}</li>
-            <li>${i.description} </li>
+            <li>Title: ${i.title}</li>
+            <li>Description: ${i.description} </li>
+            <li>Latitude: ${i.start_latitude}  </li>
+            <li>Longitude: ${i.start_longitude} </li>
           </ul>
-          <footer class="myMaps_footer">
-            <div class="myMaps_support">support information</div>
-          </footer>
 
           <form method="POST" action="api/widgets/${i.id}/delete">
             <button class="delete_map">Delete</button>
@@ -39,6 +37,7 @@ $(document).ready(function() {
   const fetchNewMap = function() {
     return newMap = `
     <div id="map"></div>
+    <div class="create_new_map">
     <form method="POST" action="/api/widgets/">
       <label for="global_map_lat">Latitude</label>
       <input id= "global_map_lat" name="global_map_lat">
@@ -52,11 +51,14 @@ $(document).ready(function() {
       <label for="global_map_description">Description</label>
       <input type="text" id="global_map_description" name="global_map_description">
 
-      <label for="global_map_is_favourite"> favourite </label>
+      <div>
+      <label for="global_map_is_favourite"> favourite </label> <nobr>
       <input type="checkbox" id="global_map_is_favourite" name="global_map_is_favourite">
+      </div>
 
       <button type="submit"> Create New </button>
     </form>
+    </div>
 
 
     <script>
