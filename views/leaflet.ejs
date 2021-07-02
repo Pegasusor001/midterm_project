@@ -112,12 +112,8 @@ map = L.map('map')
       var popup = singleMarker.bindPopup(mar.title + ': ' + mar.des).openPopup()
       popup.addTo(map);
   }
-  const onMarkerClick = function(event) {
-    console.log(event.latlng)
-  }
-  singleMarker.on('click', onMarkerClick);
 
-//search the map
+  //search the map
   let searchControl = L.esri.Geocoding.geosearch().addTo(map);
   let results = L.layerGroup().addTo(map);
 

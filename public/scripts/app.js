@@ -2,12 +2,12 @@ $(document).ready(function() {
   const fetchMyMap = function () {
     $.ajax({
       dataType: "json",
-      url: 'http://localhost:8030/api/widgets/myMaps',
+      url: '/api/widgets/myMaps',
       method: "GET"
     })
     .then((result) => {
       for(let i of result){
-        $('main').after(
+        $('main').append(
         `<article class="myMaps_listing">
           <section class="myMaps_preview_image">
           <img src='https://upload.wikimedia.org/wikipedia/commons/a/aa/World_Map.jpg'>
@@ -50,13 +50,15 @@ $(document).ready(function() {
 
   $('.my_maps').on('click', function(event){
     event.preventDefault();
+    $('main').empty();
     $('main').html('');
     fetchMyMap();
   })
 
-
   $('.create_new').on('click', function(event){
     event.preventDefault();
+    $('main').empty();
+    $('main').html('');
     $('main').html(`
     <form action="/api/widgets/" method="post">
       <div class='map_create_new'>
@@ -87,16 +89,14 @@ $(document).ready(function() {
         </div>
       </div>
     </form>
-
-
-
     `)
   })
 
   $('.search').on('click', function(event){
     event.preventDefault();
-    $('main').html(``)
-    $('body').append(`
+    $('main').empty();
+    $('main').html('');
+    $('main').html(`
     <div id="map"></div>
 
     <form method="POST" action="/api/widgets/">

@@ -17,7 +17,7 @@ router.use(cookieSession({
   keys: ['key1', 'key2']
 }));
 
-module.exports = (database) => {
+module.exports = (db, database) => {
   router.get("/", (req, res) => {
     res.render('global_map');
   });
@@ -42,7 +42,7 @@ module.exports = (database) => {
       is_favourite
     }
 
-    database.addMap(map)
+    database.addMap(db, map)
     .then(result => {
       if (!result) {
         res.send({error: "error"});
@@ -55,12 +55,13 @@ module.exports = (database) => {
 
   router.get('/myMaps', (req, res) => {
     user_id = req.session.user.id;
-    database.getMapsbyUserId(user_id)
-    .then((result) => {
-      res.json(result);
-    })
-    // res.send('maps added')
-
+    if (user_id) {
+      console.log('getmaps')
+      database.getMapsbyUserId(db, user_id)
+      .then((result) => {
+        res.json(result);
+      });
+    }
   })
 
   router.get("/test", (req, res) => {
@@ -81,10 +82,10 @@ module.exports = (database) => {
     const startCoordinates = [];
     const templateVars = {};
 
-    database.getMapbyMapId(mapId)
+    database.getMapbyMapId(db, mapId)
     .then((result) => {
       startCoordinates.push(result[0].start_latitude, result[0].start_longitude);
-      database.getPointsbyUserId(userId, mapId)
+      database.getPointsbyUserId(db, userId, mapId)
       .then((result) => {
         templateVars.point = result;
         templateVars.startCoordinates = startCoordinates;
@@ -133,7 +134,7 @@ module.exports = (database) => {
       user_id
     }
 
-    database.addPoint(point)
+    database.addPoint(db, point)
     .then(result => {
       if (!result) {
         res.send({error: "error"});

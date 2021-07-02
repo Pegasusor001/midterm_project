@@ -68,15 +68,12 @@ var myIcon = L.icon({
   iconSize: [40, 40],
 });
 
-
 //  display the pins in my database
 for (let marker in pointDatabase) {
   var singleMarker = L.marker(pointDatabase[marker].coordinate, { icon: myIcon, draggable: false});
   var popup = singleMarker.bindPopup(pointDatabase[marker].title + ': ' + pointDatabase[marker].description).openPopup()
   popup.addTo(map);
 }
-
-
 
 // set up layers
 var baseMaps = {
@@ -87,7 +84,6 @@ var baseMaps = {
 var overlayMaps = {};
 
 L.control.layers(baseMaps, overlayMaps, { collapsed: true }).addTo(map);
-
 
 var marker;
 map.on('click', function(e) {

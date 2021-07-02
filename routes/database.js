@@ -1,15 +1,6 @@
-const { Pool } = require('pg');
-
-const pool = new Pool({
-  user: 'jilinus',
-  password: '123',
-  host: 'localhost',
-  database: 'midterm'
-});
-
 /// Users
-const getUserWithEmail = function(email) {
-  return pool
+const getUserWithEmail = function(db, email) {
+  return db
   .query(`SELECT * FROM users where email = $1`, [email])
   .then((result) => {
     return result.rows[0];
@@ -21,8 +12,8 @@ const getUserWithEmail = function(email) {
 exports.getUserWithEmail = getUserWithEmail;
 
 
-const getUserWithId = function(id) {
-  return pool
+const getUserWithId = function(db, id) {
+  return db
   .query(`SELECT * FROM users where id = $1`, [id])
   .then((result) => {
     return result.rows[0];
@@ -34,8 +25,8 @@ const getUserWithId = function(id) {
 exports.getUserWithId = getUserWithId;
 
 
- const addUser =  function(user) {
-  return pool
+ const addUser =  function(db, user) {
+  return db
   .query(`INSERT INTO users (
     email, name)
     VALUES (
@@ -51,8 +42,8 @@ exports.addUser = addUser;
 
 
 //maps
-const getMapsbyUserId = function(id) {
-  return pool
+const getMapsbyUserId = function(db, id) {
+  return db
   .query(`SELECT * FROM maps where user_id = $1`, [id])
   .then((result) => {
     return result.rows;
@@ -63,8 +54,8 @@ const getMapsbyUserId = function(id) {
 }
 exports.getMapsbyUserId= getMapsbyUserId;
 
-const getMapbyMapId = function(id) {
-  return pool
+const getMapbyMapId = function(db, id) {
+  return db
   .query(`SELECT * FROM maps where id = $1`, [id])
   .then((result) => {
     return result.rows;
@@ -75,7 +66,7 @@ const getMapbyMapId = function(id) {
 }
 exports.getMapbyMapId= getMapbyMapId;
 
-const addMap = (map) => {
+const addMap = (db, map) => {
   let queryParams = [
     map.user_id,
     map.title,
@@ -91,7 +82,7 @@ const addMap = (map) => {
   let queryString = `INSERT INTO maps (user_id, title, is_public, is_favourite, image_url, start_latitude, start_longitude, description)
   VALUES($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *`;
 
-  return pool
+  return db
   .query(queryString, queryParams)
   .then((result) => {
     return result.rows;
@@ -102,8 +93,8 @@ const addMap = (map) => {
 }
 exports.addMap = addMap;
 
-const deleteMap = (id) => {
-  return pool
+const deleteMap = (db, id) => {
+  return db
   .query(`DELETE FROM maps WHERE id = $1`, [id])
   .then((result) => {
     return result.rows;
@@ -116,8 +107,8 @@ exports.deleteMap = deleteMap;
 
 
 // points
-const getPointsbyUserId = function(userId, mapId) {
-  return pool
+const getPointsbyUserId = function(db, userId, mapId) {
+  return db
   .query(`SELECT * FROM points where user_id = $1 AND map_id = $2`, [userId, mapId])
   .then((result) => {
     return result.rows;
@@ -128,7 +119,7 @@ const getPointsbyUserId = function(userId, mapId) {
 }
 exports.getPointsbyUserId = getPointsbyUserId;
 
-const addPoint = (point) => {
+const addPoint = (db, point) => {
   let queryParams = [
     point.user_id,
     point.map_id,
@@ -143,7 +134,7 @@ const addPoint = (point) => {
   let queryString = `INSERT INTO points (user_id, map_id, address, latitude, longitude, title, description, image_url)
   VALUES($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *`;
 
-  return pool
+  return db
   .query(queryString, queryParams)
   .then((result) => {
     return result.rows;

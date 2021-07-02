@@ -15,8 +15,7 @@ router.use(cookieSession({
   keys: ['key1', 'key2']
 }));
 
-
-module.exports = (database) => {
+module.exports = (db, database) => {
   router.get("/login", (req, res) => {
     res.render("login.ejs");
   });
@@ -27,7 +26,7 @@ module.exports = (database) => {
 
   router.post('/login', (req, res) => {
     const {email, password} = req.body;
-    database.getUserWithEmail(email)
+    database.getUserWithEmail(db, email)
       .then(user => {
         if (!user) {
           res.send({error: 'This user doesn\'t exist'})
@@ -46,7 +45,7 @@ module.exports = (database) => {
 
   router.post('/register', (req, res) => {
     const user = req.body;
-    database.addUser(user)
+    database.addUser(db, user)
     .then(user => {
       if (!user) {
         res.send({error: "error"});
